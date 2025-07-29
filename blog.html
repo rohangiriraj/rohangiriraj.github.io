@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Rohan Giriraj</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1><a href="index.html">Rohan Giriraj</a></h1>
+            <nav>
+                <a href="index.html">About</a>
+                <a href="blog.html" class="active">Blog</a>
+                <a href="projects.html">Projects</a>
+                <a href="cv.html">CV</a>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                    🌙 Dark
+                </button>
+            </nav>
+        </header>
+
+        <main>
+            <div class="page-intro">
+                <h2>All Posts</h2>
+                <p>A collection of my thoughts on technology, design, and everything in between.</p>
+            </div>
+
+            <div class="post-list">
+                </div>
+                
+            <div class="pagination">
+                <button class="pagination-btn prev-btn" id="prevBtn" disabled>
+                    <span>← Previous</span>
+                </button>
+                <div class="pagination-info">
+                    <span id="pageInfo">Page 1 of 1</span>
+                </div>
+                <button class="pagination-btn next-btn" id="nextBtn" disabled>
+                    <span>Next →</span>
+                </button>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Rohan Giriraj. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Enhanced blog list with pagination
+        (async function() {
+            const postListContainer = document.querySelector('.post-list');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const pageInfo = document.getElementById('pageInfo');
+            
+            // Pagination configuration
+            const POSTS_PER_PAGE = 5;
+            let currentPage = 1;
+            let allPosts = [];
+            let totalPages = 1;
+
+            // Initialize pagination
+            async function initializeBlog() {
+                try {
+                    // 1. Fetch the manifest file
+                    const response = await fetch('posts.json');
+                    if (!response.ok) throw new Error('Could not load post data.');
+                    
+                    allPosts = await response.json();
+                    
+                    if (allPosts.length === 0) {
+                        postListContainer.innerHTML = '<p>No posts yet. Check back soon!</p>';
+                        return;
+                    }
+
+                    totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
+                    
+                    // Get page from URL parameter if exists
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const pageParam = parseInt(urlParams.get('page'));
+                    if (pageParam && pageParam >= 1 && pageParam <= totalPages) {
+                        currentPage = pageParam;
+                    }
+                    
+                    renderCurrentPage();
+                    updatePaginationControls();
+                    
+                } catch (error) {
+                    console.error('Error loading posts:', error);
+                    postListContainer.innerHTML = '<p>Sorry, there was an error loading the posts.</p>';
+                }
+            }
+
+            // Render posts for current page
+            function renderCurrentPage() {
+                const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+                const endIndex = startIndex + POSTS_PER_PAGE;
+                const postsToShow = allPosts.slice(startIndex, endIndex);
+                
+                // Clear existing posts with fade effect
+                postListContainer.style.opacity = '0';
+                
+                setTimeout(() => {
+                    postListContainer.innerHTML = '';
+                    
+                    postsToShow.forEach(post => {
+                        const postArticle = document.createElement('article');
+                        
+                        postArticle.innerHTML = `
+                            <h3><a href="post.html?post=${post.file}&from=${currentPage}">${post.title}</a></h3>
+                            <p class="post-meta"><span>${post.date}</span></p>
+                            <p>${post.excerpt}</p>
+                        `;
+                        
+                        postListContainer.appendChild(postArticle);
+                    });
+                    
+                    // Fade in new posts
+                    postListContainer.style.opacity = '1';
+                    
+                    // Scroll to top of post list smoothly
+                    postListContainer.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }, 150);
+            }
+
+            // Update pagination controls
+            function updatePaginationControls() {
+                // Update page info
+                pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+                
+                // Update button states
+                prevBtn.disabled = currentPage === 1;
+                nextBtn.disabled = currentPage === totalPages;
+                
+                // Update URL without reloading page
+                const newUrl = new URL(window.location);
+                if (currentPage === 1) {
+                    newUrl.searchParams.delete('page');
+                } else {
+                    newUrl.searchParams.set('page', currentPage);
+                }
+                window.history.replaceState({}, '', newUrl);
+                
+                // Hide pagination if only one page
+                const paginationContainer = document.querySelector('.pagination');
+                paginationContainer.style.display = totalPages <= 1 ? 'none' : 'flex';
+            }
+
+            // Navigation handlers
+            prevBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderCurrentPage();
+                    updatePaginationControls();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderCurrentPage();
+                    updatePaginationControls();
+                }
+            });
+
+            // Initialize the blog
+            initializeBlog();
+        })();
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.querySelector('.theme-toggle');
+            const currentTheme = body.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                body.removeAttribute('data-theme');
+                button.innerHTML = '🌙 Dark';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                button.innerHTML = '☀️ Light';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Load saved theme on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            const button = document.querySelector('.theme-toggle');
+            
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                button.innerHTML = '☀️ Light';
+            } else {
+                button.innerHTML = '🌙 Dark';
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+[
+  {
+    "slug": "personal-portfolio-website",
+    "title": "Personal Portfolio Website",
+    "description": "A modern, responsive portfolio built with vanilla HTML/CSS/JS featuring Serika theme and dark mode toggle",
+    "techStack": ["HTML", "CSS", "JavaScript", "Responsive Design", "Serika Theme"],
+    "status": "Complete",
+    "featured": true,
+    "links": {
+      "live": "https://rohangiriraj.dev",
+      "github": "https://github.com/rohan/portfolio",
+      "demo": null
+    },
+    "date": "July 2025",
+    "excerpt": "Built from scratch with modern web technologies, featuring a clean developer-focused design with pagination, theme switching, and project showcases."
+  },
+  {
+    "slug": "data-pipeline-automation",
+    "title": "Data Pipeline Automation Tool",
+    "description": "Python-based ETL pipeline for processing large datasets with automated monitoring and error handling",
+    "techStack": ["Python", "Apache Airflow", "PostgreSQL", "Docker", "AWS S3"],
+    "status": "In Progress",
+    "featured": true,
+    "links": {
+      "live": null,
+      "github": "https://github.com/rohan/data-pipeline",
+      "demo": "https://demo.pipeline.com"
+    },
+    "date": "June 2025",
+    "excerpt": "Scalable data processing solution handling 10M+ records daily with automated validation, monitoring, and failure recovery mechanisms."
+  },
+  {
+    "slug": "ml-recommendation-engine",
+    "title": "ML-Powered Recommendation Engine",
+    "description": "Machine learning system for personalized content recommendations using collaborative filtering and deep learning",
+    "techStack": ["Python", "TensorFlow", "FastAPI", "Redis", "MongoDB"],
+    "status": "Complete",
+    "featured": false,
+    "links": {
+      "live": "https://recommendations.example.com",
+      "github": "https://github.com/rohan/ml-recommendations",
+      "demo": null
+    },
+    "date": "May 2025",
+    "excerpt": "Real-time recommendation system achieving 23% improvement in user engagement through advanced ML algorithms and efficient caching."
+  },
+  {
+    "slug": "microservices-api-gateway",
+    "title": "Microservices API Gateway",
+    "description": "High-performance API gateway for microservices architecture with rate limiting, authentication, and monitoring",
+    "techStack": ["Node.js", "Express", "Redis", "Docker", "Kubernetes", "JWT"],
+    "status": "Complete",
+    "featured": true,
+    "links": {
+      "live": null,
+      "github": "https://github.com/rohan/api-gateway",
+      "demo": null
+    },
+    "date": "April 2025",
+    "excerpt": "Production-ready API gateway handling 100K+ requests/minute with advanced security, monitoring, and auto-scaling capabilities."
+  },
+  {
+    "slug": "real-time-chat-application",
+    "title": "Real-time Chat Application",
+    "description": "WebSocket-based chat platform with rooms, file sharing, and real-time notifications",
+    "techStack": ["React", "Node.js", "Socket.io", "MongoDB", "AWS S3"],
+    "status": "Complete",
+    "featured": false,
+    "links": {
+      "live": "https://chat.example.com",
+      "github": "https://github.com/rohan/realtime-chat",
+      "demo": "https://chat-demo.example.com"
+    },
+    "date": "March 2025",
+    "excerpt": "Decentralized voting application built on Ethereum blockchain ensuring transparent, secure, and tamper-proof elections with smart contract verification."
+  },
+  {
+    "slug": "task-management-app",
+    "title": "Task Management Application",
+    "description": "A modern task management app with team collaboration features and real-time updates",
+    "techStack": ["React", "TypeScript", "Node.js", "Socket.io", "MongoDB"],
+    "status": "Complete",
+    "featured": true,
+    "links": {
+      "live": "https://tasks.example.com",
+      "github": "https://github.com/rohan/task-manager",
+      "demo": "https://demo-tasks.example.com"
+    },
+    "date": "January 2025",
+    "excerpt": "Full-stack task management solution with real-time collaboration, drag-and-drop interface, and advanced filtering capabilities for teams."
+  },
+  {
+    "slug": "blockchain-voting-system",
+    "title": "Blockchain Voting System",
+    "description": "Decentralized voting platform ensuring transparency and security using smart contracts",
+    "techStack": ["Solidity", "React", "Web3.js", "Ethereum", "IPFS"],
+    "status": "In Progress",
+    "featured": true,
+    "links": {
+      "live": null,
+      "github": "https://github.com/rohan/blockchain-voting",
+      "demo": null
+    },
+    "date": "February 2025",
+    "excerpt": "Secure and transparent voting system leveraging blockchain technology to ensure vote integrity and prevent tampering."
+  }
+]

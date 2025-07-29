@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Rohan Giriraj</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1><a href="index.html">Rohan Giriraj</a></h1>
+            <nav>
+                <a href="index.html">About</a>
+                <a href="blog.html">Blog</a>
+                <a href="projects.html" class="active">Projects</a>
+                <a href="cv.html">CV</a>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                    🌙 Dark
+                </button>
+            </nav>
+        </header>
+
+        <main>
+            <div class="page-intro">
+                <h2>My Projects</h2>
+                <p>A showcase of my technical work spanning backend engineering, data science, and full-stack development.</p>
+            </div>
+
+            <div class="project-filters">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="featured">Featured</button>
+                <button class="filter-btn" data-filter="complete">Complete</button>
+                <button class="filter-btn" data-filter="in-progress">In Progress</button>
+            </div>
+
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Projects will be loaded here -->
+            </div>
+
+            <div class="pagination" id="projectsPagination" style="display: none;">
+                <button class="pagination-btn prev-btn" id="prevBtnProjects" disabled>
+                    <span>← Previous</span>
+                </button>
+                <div class="pagination-info">
+                    <span id="pageInfoProjects">Page 1 of 1</span>
+                </div>
+                <button class="pagination-btn next-btn" id="nextBtnProjects" disabled>
+                    <span>Next →</span>
+                </button>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Rohan Giriraj. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Projects page functionality
+        (async function() {
+            const projectsGrid = document.getElementById('projectsGrid');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const prevBtn = document.getElementById('prevBtnProjects');
+            const nextBtn = document.getElementById('nextBtnProjects');
+            const pageInfo = document.getElementById('pageInfoProjects');
+            const pagination = document.getElementById('projectsPagination');
+            
+            const PROJECTS_PER_PAGE = 4;
+            let currentPage = 1;
+            let allProjects = [];
+            let filteredProjects = [];
+            let currentFilter = 'all';
+            let totalPages = 1;
+
+            // Load projects data
+            async function loadProjects() {
+                try {
+                    const response = await fetch('projects.json');
+                    if (!response.ok) throw new Error('Could not load projects data.');
+                    
+                    allProjects = await response.json();
+                    filteredProjects = [...allProjects];
+                    
+                    if (allProjects.length === 0) {
+                        projectsGrid.innerHTML = '<p class="no-projects">No projects to display yet. Check back soon!</p>';
+                        return;
+                    }
+                    
+                    setupPagination();
+                    renderProjects();
+                    
+                } catch (error) {
+                    console.error('Error loading projects:', error);
+                    projectsGrid.innerHTML = '<p class="error-message">Sorry, there was an error loading the projects.</p>';
+                }
+            }
+
+            // Setup pagination
+            function setupPagination() {
+                totalPages = Math.ceil(filteredProjects.length / PROJECTS_PER_PAGE);
+                currentPage = Math.min(currentPage, totalPages || 1);
+                
+                if (totalPages <= 1) {
+                    pagination.style.display = 'none';
+                } else {
+                    pagination.style.display = 'flex';
+                }
+                
+                updatePaginationControls();
+            }
+
+            // Render projects for current page
+            function renderProjects() {
+                const startIndex = (currentPage - 1) * PROJECTS_PER_PAGE;
+                const endIndex = startIndex + PROJECTS_PER_PAGE;
+                const projectsToShow = filteredProjects.slice(startIndex, endIndex);
+                
+                projectsGrid.style.opacity = '0';
+                
+                setTimeout(() => {
+                    projectsGrid.innerHTML = '';
+                    
+                    projectsToShow.forEach(project => {
+                        const projectCard = createProjectCard(project);
+                        projectsGrid.appendChild(projectCard);
+                    });
+                    
+                    projectsGrid.style.opacity = '1';
+                }, 150);
+            }
+
+            // Create project card HTML
+            function createProjectCard(project) {
+                const card = document.createElement('div');
+                card.className = 'project-card';
+                
+                const statusClass = project.status.toLowerCase().replace(' ', '-');
+                const techStackHtml = project.techStack.slice(0, 3).map(tech => 
+                    `<span class="tech-tag">${tech}</span>`
+                ).join('');
+                
+                const moreCount = project.techStack.length > 3 ? project.techStack.length - 3 : 0;
+                const moreText = moreCount > 0 ? `<span class="tech-more">+${moreCount} more</span>` : '';
+                
+                const linksHtml = createLinksHtml(project.links);
+                
+                card.innerHTML = `
+                    <div class="project-header">
+                        <div class="project-status ${statusClass}">${project.status}</div>
+                        ${project.featured ? '<div class="project-featured">⭐ Featured</div>' : ''}
+                    </div>
+                    <h3><a href="project.html?project=${project.slug}">${project.title}</a></h3>
+                    <p class="project-description">${project.description}</p>
+                    <div class="project-tech">
+                        ${techStackHtml}
+                        ${moreText}
+                    </div>
+                    <div class="project-meta">
+                        <span class="project-date">${project.date}</span>
+                        <div class="project-links">
+                            ${linksHtml}
+                        </div>
+                    </div>
+                `;
+                
+                return card;
+            }
+
+            // Create links HTML
+            function createLinksHtml(links) {
+                let html = '';
+                if (links.live) html += `<a href="${links.live}" target="_blank" class="project-link live">🌐 Live</a>`;
+                if (links.github) html += `<a href="${links.github}" target="_blank" class="project-link github">📁 Code</a>`;
+                if (links.demo) html += `<a href="${links.demo}" target="_blank" class="project-link demo">🎮 Demo</a>`;
+                return html;
+            }
+
+            // Filter projects
+            function filterProjects(filter) {
+                currentFilter = filter;
+                currentPage = 1;
+                
+                switch (filter) {
+                    case 'featured':
+                        filteredProjects = allProjects.filter(p => p.featured);
+                        break;
+                    case 'complete':
+                        filteredProjects = allProjects.filter(p => p.status === 'Complete');
+                        break;
+                    case 'in-progress':
+                        filteredProjects = allProjects.filter(p => p.status === 'In Progress');
+                        break;
+                    default:
+                        filteredProjects = [...allProjects];
+                }
+                
+                setupPagination();
+                renderProjects();
+            }
+
+            // Update pagination controls
+            function updatePaginationControls() {
+                pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+                prevBtn.disabled = currentPage === 1;
+                nextBtn.disabled = currentPage === totalPages;
+            }
+
+            // Event listeners
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    filterProjects(btn.dataset.filter);
+                });
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderProjects();
+                    updatePaginationControls();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderProjects();
+                    updatePaginationControls();
+                }
+            });
+
+            // Initialize
+            loadProjects();
+        })();
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.querySelector('.theme-toggle');
+            const currentTheme = body.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                body.removeAttribute('data-theme');
+                button.innerHTML = '🌙 Dark';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                button.innerHTML = '☀️ Light';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Load saved theme on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            const button = document.querySelector('.theme-toggle');
+            
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                button.innerHTML = '☀️ Light';
+            } else {
+                button.innerHTML = '🌙 Dark';
+            }
+        });
+    </script>
+
+</body>
+</html>

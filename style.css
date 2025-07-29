@@ -1,0 +1,1069 @@
+/* style.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech:wght@400&display=swap');
+
+/* Serika Light Theme */
+:root {
+    --main-color: #e2b714;
+    --caret-color: #e2b714;
+    --sub-color: #aaaeb3;
+    --sub-alt-color: #d1d3d8;
+    --bg-color: #e1e1e3;
+    --text-color: #323437;
+    --accent-color: #e2b714; /* Keep yellow accent */
+    --border-color: #d1d3d8;
+    --card-bg-color: #f0f0f2;
+    --header-font-weight: 400;
+    --body-font-weight: 400;
+}
+
+/* Serika Dark Theme */
+[data-theme="dark"] {
+    --main-color: #e2b714;
+    --caret-color: #e2b714;
+    --sub-color: #646669;
+    --sub-alt-color: #2c2e31;
+    --bg-color: #323437;
+    --text-color: #d1d0c5;
+    --accent-color: #e2b714; /* Keep yellow accent */
+    --border-color: #2c2e31;
+    --card-bg-color: #2c2e31;
+}
+
+body {
+    font-family: 'Share Tech', monospace;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 2rem;
+    line-height: 1.7;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* --- HEADER & NAVIGATION STYLES --- */
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: var(--header-font-weight);
+    text-align: center;
+    margin-bottom: 0.5rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+/* --- Decorative yellow underline for the main title --- */
+header h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background-color: var(--accent-color);
+}
+
+header h1 a {
+    text-decoration: none;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+nav {
+    text-align: center;
+    margin: 1.5rem 0 4rem 0;
+    position: relative;
+}
+
+nav a {
+    color: var(--sub-color);
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+    padding-bottom: 5px;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+nav a:hover {
+    color: var(--text-color);
+}
+
+nav a.active {
+    color: var(--text-color);
+    border-bottom: 2px solid var(--accent-color);
+}
+
+/* --- THEME TOGGLE --- */
+.theme-toggle {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: 2px solid var(--accent-color);
+    border-radius: 20px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-family: 'Share Tech', monospace;
+    font-size: 0.8rem;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+}
+
+@media (max-width: 768px) {
+    .theme-toggle {
+        position: static;
+        transform: none;
+        margin-top: 1rem;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+
+/* --- MAIN CONTENT STYLES --- */
+
+main {
+    text-align: center; /* --- NEW: Center align the content in main sections --- */
+}
+
+/* --- NEW: Add generous spacing between content sections --- */
+main section {
+    margin-bottom: 4rem; 
+}
+
+main section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+/* --- BUTTON STYLE --- */
+.button {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    padding: 12px 24px; /* --- MODIFIED: Slightly larger button --- */
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin: 0 0.5rem 0.5rem 0;
+}
+
+.button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.button-secondary {
+    background-color: transparent;
+    border: 2px solid var(--accent-color);
+    color: var(--text-color);
+}
+
+.button-secondary:hover {
+    background-color: var(--accent-color);
+}
+
+/* --- PROFILE SECTION --- */
+
+#profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--accent-color);
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.profile-picture:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+}
+
+.profile-placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: var(--sub-alt-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--sub-color);
+    transition: all 0.3s ease;
+}
+
+.profile-placeholder:hover {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+}
+
+.profile-placeholder span {
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 0.25rem;
+}
+
+.profile-content {
+    text-align: center;
+    max-width: 600px;
+}
+
+.quick-links {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* Responsive profile section */
+@media (max-width: 768px) {
+    .profile-picture {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .quick-links {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .button {
+        min-width: 200px;
+        text-align: center;
+    }
+}
+
+/* --- FOOTER --- */
+footer {
+    text-align: center;
+    margin-top: 4rem;
+    color: var(--sub-color);
+    font-size: 0.9rem;
+}
+
+/* --- STYLES FOR RENDERED MARKDOWN --- */
+/* Add this to the end of your style.css file */
+
+.post-body {
+    text-align: left; /* Override the centered text for blog posts */
+    color: var(--text-color);
+}
+
+.post-body h1,
+.post-body h2,
+.post-body h3 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.post-body p {
+    margin-bottom: 1.25rem;
+}
+
+.post-body ul,
+.post-body ol {
+    padding-left: 2rem;
+    margin-bottom: 1.25rem;
+}
+
+.post-body li {
+    margin-bottom: 0.5rem;
+}
+
+.post-body a {
+    color: var(--text-color);
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.post-body a:hover {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+/* Use the yellow accent for blockquotes */
+.post-body blockquote {
+    margin: 2rem 0;
+    padding: 0.5rem 1.5rem;
+    border-left: 5px solid var(--accent-color);
+    background-color: var(--card-bg-color);
+    color: var(--sub-color);
+    font-style: italic;
+}
+
+.post-body code {
+    background-color: var(--sub-alt-color);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
+    color: var(--text-color);
+}
+
+.post-body pre {
+    background-color: var(--sub-alt-color);
+    color: var(--text-color);
+    padding: 1rem;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+.post-body pre code {
+    background-color: transparent;
+    padding: 0;
+}
+
+/* --- STYLES FOR BLOG LIST PAGE --- */
+
+.page-intro {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.post-list {
+    text-align: left;
+}
+
+.post-list article {
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.post-list article:last-of-type {
+    border-bottom: none; /* Remove border from the last item */
+    margin-bottom: 0;
+}
+
+.post-list h3 {
+    margin-bottom: 0.25rem;
+    font-size: 1.6rem;
+}
+
+.post-list h3 a {
+    text-decoration: none;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+.post-list h3 a:hover {
+    color: var(--accent-color);
+}
+
+.post-meta {
+    color: var(--sub-color);
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Add this if you don't have it already for the post meta */
+.post-meta span {
+    border-left: 3px solid var(--accent-color);
+    padding-left: 8px;
+}
+
+/* --- PAGINATION STYLES --- */
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--border-color);
+}
+
+.pagination-btn {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-family: 'Share Tech', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    min-width: 120px;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+    background-color: #ffed4e;
+}
+
+.pagination-btn:disabled {
+    background-color: var(--sub-alt-color);
+    color: var(--sub-color);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.pagination-info {
+    color: var(--sub-color);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.post-list {
+    transition: opacity 0.3s ease;
+}
+
+/* Responsive pagination */
+@media (max-width: 600px) {
+    .pagination {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .pagination-btn {
+        min-width: 200px;
+    }
+}
+
+/* --- SOCIAL MEDIA LINKS --- */
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--sub-color);
+    text-decoration: none;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    border: 2px solid transparent;
+}
+
+.social-links a:hover {
+    color: var(--bg-color);
+    background-color: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(226, 183, 20, 0.2);
+}
+
+.social-links svg {
+    fill: currentColor;
+    transition: fill 0.3s ease;
+}
+
+.social-links span {
+    font-size: 0.9rem;
+}
+
+/* Responsive social links */
+@media (max-width: 600px) {
+    .social-links {
+        gap: 1rem;
+    }
+    
+    .social-links a {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.85rem;
+    }
+    
+    .social-links svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .social-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .social-links a {
+        min-width: 150px;
+        justify-content: center;
+    }
+}
+
+/* --- CV PAGE STYLES --- */
+
+.cv-content {
+    text-align: left;
+    max-width: 100%;
+}
+
+.cv-section {
+    margin-bottom: 3rem;
+}
+
+.cv-section h3 {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--accent-color);
+}
+
+.cv-item {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.cv-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.cv-item h4 {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.cv-meta {
+    color: var(--sub-color);
+    font-weight: 500;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.skill-category {
+    background-color: var(--card-bg-color);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s ease;
+}
+
+.skill-category h5 {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.skill-category p {
+    color: var(--sub-color);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.cv-download {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--border-color);
+}
+
+/* Responsive CV styles */
+@media (max-width: 768px) {
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .skill-category {
+        padding: 1rem;
+    }
+}
+
+/* --- POST NAVIGATION STYLES --- */
+
+.post-navigation {
+    margin-bottom: 2rem;
+}
+
+.post-navigation.bottom {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--border-color);
+}
+
+.back-to-blog {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--sub-color);
+    text-decoration: none;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    background-color: var(--card-bg-color);
+}
+
+.back-to-blog:hover {
+    color: var(--bg-color);
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(226, 183, 20, 0.2);
+}
+
+/* Responsive post navigation */
+@media (max-width: 600px) {
+    .back-to-blog {
+        font-size: 0.85rem;
+        padding: 0.6rem 0.8rem;
+    }
+}
+
+/* --- PROJECTS PAGE STYLES --- */
+
+.project-filters {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background-color: var(--card-bg-color);
+    color: var(--sub-color);
+    border: 2px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Share Tech', monospace;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    color: var(--text-color);
+    border-color: var(--accent-color);
+}
+
+.filter-btn.active {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    border-color: var(--accent-color);
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+    transition: opacity 0.3s ease;
+}
+
+.project-card {
+    background-color: var(--card-bg-color);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(226, 183, 20, 0.15);
+    border-color: var(--accent-color);
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.project-status {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.project-status.complete {
+    background-color: #28a745;
+    color: white;
+}
+
+.project-status.in-progress {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.project-featured {
+    font-size: 0.75rem;
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+.project-card h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.3rem;
+}
+
+.project-card h3 a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.project-card h3 a:hover {
+    color: var(--accent-color);
+}
+
+.project-description {
+    color: var(--sub-color);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    font-size: 0.9rem;
+}
+
+.project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tech-tag {
+    background-color: var(--sub-alt-color);
+    color: var(--text-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.tech-more {
+    color: var(--sub-color);
+    font-size: 0.75rem;
+    font-style: italic;
+}
+
+.project-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.project-date {
+    color: var(--sub-color);
+    font-size: 0.85rem;
+}
+
+.project-links {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.project-link {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.project-link.live {
+    color: #28a745;
+    border-color: #28a745;
+}
+
+.project-link.github {
+    color: var(--sub-color);
+    border-color: var(--border-color);
+}
+
+.project-link.demo {
+    color: #007bff;
+    border-color: #007bff;
+}
+
+.project-link:hover {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    border-color: var(--accent-color);
+}
+
+.no-projects, .error-message {
+    text-align: center;
+    color: var(--sub-color);
+    font-style: italic;
+    padding: 2rem;
+}
+
+/* Responsive projects grid */
+@media (max-width: 768px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .project-filters {
+        gap: 0.5rem;
+    }
+    
+    .filter-btn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .project-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+}
+
+/* --- PROJECT DETAIL PAGE STYLES --- */
+
+.back-to-projects {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--sub-color);
+    text-decoration: none;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    background-color: var(--card-bg-color);
+}
+
+.back-to-projects:hover {
+    color: var(--bg-color);
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(226, 183, 20, 0.2);
+}
+
+.project-detail {
+    max-width: 100%;
+}
+
+.project-header-detail {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.project-meta-detail {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.project-detail h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.project-description-detail {
+    font-size: 1.1rem;
+    color: var(--sub-color);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.project-tech-detail, .project-links-detail {
+    margin-bottom: 2rem;
+}
+
+.project-tech-detail h3, .project-links-detail h3 {
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.tech-stack .tech-tag {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    background-color: var(--sub-alt-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+}
+
+.links-container {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.project-link-detail {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 2px solid;
+}
+
+.project-link-detail.live {
+    color: #28a745;
+    border-color: #28a745;
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+.project-link-detail.github {
+    color: var(--text-color);
+    border-color: var(--border-color);
+    background-color: var(--card-bg-color);
+}
+
+.project-link-detail.demo {
+    color: #007bff;
+    border-color: #007bff;
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.project-link-detail:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.project-link-detail.live:hover {
+    background-color: #28a745;
+    color: white;
+}
+
+.project-link-detail.github:hover {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    border-color: var(--accent-color);
+}
+
+.project-link-detail.demo:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.project-content {
+    text-align: left;
+    color: var(--text-color);
+    line-height: 1.7;
+}
+
+.project-content h2 {
+    color: var(--text-color);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.project-content h3 {
+    color: var(--text-color);
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.2rem;
+}
+
+.project-content p {
+    margin-bottom: 1.25rem;
+    color: var(--text-color);
+}
+
+.project-content ul, .project-content ol {
+    margin-bottom: 1.25rem;
+    padding-left: 2rem;
+}
+
+.project-content li {
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.project-content strong {
+    color: var(--accent-color);
+}
+
+.no-links {
+    color: var(--sub-color);
+    font-style: italic;
+}
+
+/* Responsive project detail */
+@media (max-width: 768px) {
+    .project-detail h1 {
+        font-size: 2rem;
+    }
+    
+    .project-meta-detail {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .links-container {
+        flex-direction: column;
+    }
+    
+    .project-link-detail {
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .tech-stack {
+        justify-content: center;
+    }
+}

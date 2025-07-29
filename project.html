@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project | Rohan Giriraj</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech:wght@400&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1><a href="index.html">Rohan Giriraj</a></h1>
+            <nav>
+                <a href="index.html">About</a>
+                <a href="blog.html">Blog</a>
+                <a href="projects.html" class="active">Projects</a>
+                <a href="cv.html">CV</a>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                    🌙 Dark
+                </button>
+            </nav>
+        </header>
+
+        <main>
+            <div class="post-navigation">
+                <a href="projects.html" class="back-to-projects" id="backToProjects">
+                    ← Back to Projects
+                </a>
+            </div>
+            
+            <div id="project-content" class="project-detail">
+                <!-- Project content will be loaded here -->
+            </div>
+            
+            <div class="post-navigation bottom">
+                <a href="projects.html" class="back-to-projects" id="backToProjectsBottom">
+                    ← Back to Projects
+                </a>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Rohan Giriraj. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Project detail page functionality
+        (async function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const projectSlug = urlParams.get('project');
+            
+            if (projectSlug) {
+                try {
+                    // Load projects data
+                    const response = await fetch('projects.json');
+                    if (!response.ok) throw new Error('Could not load projects data.');
+                    
+                    const projects = await response.json();
+                    const project = projects.find(p => p.slug === projectSlug);
+                    
+                    if (project) {
+                        renderProject(project);
+                        document.title = `${project.title} | Rohan Giriraj`;
+                    } else {
+                        document.getElementById('project-content').innerHTML = `
+                            <div class="error-message">
+                                <h2>Project Not Found</h2>
+                                <p>The project you're looking for doesn't exist.</p>
+                            </div>
+                        `;
+                    }
+                    
+                } catch (error) {
+                    console.error('Error loading project:', error);
+                    document.getElementById('project-content').innerHTML = `
+                        <div class="error-message">
+                            <h2>Error Loading Project</h2>
+                            <p>Sorry, there was an error loading the project details.</p>
+                        </div>
+                    `;
+                }
+            } else {
+                document.getElementById('project-content').innerHTML = `
+                    <div class="error-message">
+                        <h2>No Project Specified</h2>
+                        <p>Please select a project to view its details.</p>
+                    </div>
+                `;
+            }
+        })();
+
+        function renderProject(project) {
+            const statusClass = project.status.toLowerCase().replace(' ', '-');
+            const techStackHtml = project.techStack.map(tech => 
+                `<span class="tech-tag">${tech}</span>`
+            ).join('');
+            
+            const linksHtml = createProjectLinks(project.links);
+            
+            // Create sample project content (you would load this from markdown files in a real implementation)
+            const projectContent = createProjectContent(project);
+            
+            document.getElementById('project-content').innerHTML = `
+                <div class="project-header-detail">
+                    <div class="project-meta-detail">
+                        <div class="project-status ${statusClass}">${project.status}</div>
+                        ${project.featured ? '<div class="project-featured">⭐ Featured</div>' : ''}
+                        <span class="project-date">${project.date}</span>
+                    </div>
+                    <h1>${project.title}</h1>
+                    <p class="project-description-detail">${project.description}</p>
+                    
+                    <div class="project-tech-detail">
+                        <h3>Technologies Used</h3>
+                        <div class="tech-stack">
+                            ${techStackHtml}
+                        </div>
+                    </div>
+                    
+                    <div class="project-links-detail">
+                        <h3>Project Links</h3>
+                        <div class="links-container">
+                            ${linksHtml}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-content">
+                    ${projectContent}
+                </div>
+            `;
+        }
+
+        function createProjectLinks(links) {
+            let html = '';
+            if (links.live) html += `<a href="${links.live}" target="_blank" class="project-link-detail live">🌐 View Live Site</a>`;
+            if (links.github) html += `<a href="${links.github}" target="_blank" class="project-link-detail github">📁 View Source Code</a>`;
+            if (links.demo) html += `<a href="${links.demo}" target="_blank" class="project-link-detail demo">🎮 Try Demo</a>`;
+            return html || '<p class="no-links">Links will be available soon.</p>';
+        }
+
+        function createProjectContent(project) {
+            // This is sample content - in a real implementation, you'd load markdown files
+            switch(project.slug) {
+                case 'personal-portfolio-website':
+                    return `
+                        <h2>Project Overview</h2>
+                        <p>This portfolio website was built from scratch using modern web technologies with a focus on performance, accessibility, and user experience. The design follows the Serika theme aesthetic popular in the mechanical keyboard community.</p>
+                        
+                        <h2>Key Features</h2>
+                        <ul>
+                            <li><strong>Responsive Design:</strong> Optimized for all device sizes</li>
+                            <li><strong>Dark/Light Theme:</strong> Toggle between Serika light and dark themes</li>
+                            <li><strong>Blog System:</strong> Markdown-based blog with pagination</li>
+                            <li><strong>Project Showcase:</strong> Dedicated section for technical projects</li>
+                            <li><strong>Performance:</strong> Vanilla JS for fast loading times</li>
+                        </ul>
+                        
+                        <h2>Technical Implementation</h2>
+                        <p>The site uses a simple but effective architecture:</p>
+                        <ul>
+                            <li>JSON-based content management for blog posts and projects</li>
+                            <li>CSS custom properties for seamless theme switching</li>
+                            <li>JavaScript modules for pagination and interactivity</li>
+                            <li>Semantic HTML for accessibility</li>
+                        </ul>
+                        
+                        <h2>Challenges & Solutions</h2>
+                        <p>One of the main challenges was implementing smooth pagination while maintaining clean URLs and bookmarkable pages. This was solved by using URL parameters and history API for seamless navigation.</p>
+                    `;
+                    
+                case 'data-pipeline-automation':
+                    return `
+                        <h2>Project Overview</h2>
+                        <p>A comprehensive ETL pipeline built to handle large-scale data processing with automated monitoring, error handling, and recovery mechanisms.</p>
+                        
+                        <h2>Architecture</h2>
+                        <p>The pipeline follows a microservices architecture with the following components:</p>
+                        <ul>
+                            <li><strong>Data Ingestion:</strong> Multi-source data collection (APIs, databases, files)</li>
+                            <li><strong>Processing Engine:</strong> Apache Airflow for orchestration</li>
+                            <li><strong>Data Validation:</strong> Custom validators for data quality</li>
+                            <li><strong>Storage:</strong> PostgreSQL for structured data, S3 for raw files</li>
+                            <li><strong>Monitoring:</strong> Real-time alerts and dashboards</li>
+                        </ul>
+                        
+                        <h2>Performance Metrics</h2>
+                        <ul>
+                            <li>Processes 10M+ records daily</li>
+                            <li>99.9% uptime with automated failover</li>
+                            <li>Sub-minute error detection and alerting</li>
+                            <li>Automatic retry mechanisms for transient failures</li>
+                        </ul>
+                    `;
+                    
+                case 'task-management-app':
+                    return `
+                        <h2>Project Overview</h2>
+                        <p>A comprehensive task management application designed for teams who need real-time collaboration and advanced project organization capabilities.</p>
+                        
+                        <h2>Key Features</h2>
+                        <ul>
+                            <li><strong>Real-time Collaboration:</strong> Live updates using Socket.io</li>
+                            <li><strong>Drag & Drop Interface:</strong> Intuitive task organization</li>
+                            <li><strong>Advanced Filtering:</strong> Sort by priority, assignee, due date</li>
+                            <li><strong>Team Management:</strong> Role-based permissions and notifications</li>
+                            <li><strong>Progress Tracking:</strong> Visual dashboards and analytics</li>
+                        </ul>
+                        
+                        <h2>Technical Architecture</h2>
+                        <p>Built with a modern tech stack focusing on performance and scalability:</p>
+                        <ul>
+                            <li><strong>Frontend:</strong> React with TypeScript for type safety</li>
+                            <li><strong>Backend:</strong> Node.js with Express and Socket.io</li>
+                            <li><strong>Database:</strong> MongoDB with optimized indexing</li>
+                            <li><strong>Real-time:</strong> WebSocket connections for instant updates</li>
+                            <li><strong>Authentication:</strong> JWT-based secure user sessions</li>
+                        </ul>
+                        
+                        <h2>Performance Metrics</h2>
+                        <ul>
+                            <li>Supports 100+ concurrent users per workspace</li>
+                            <li>Sub-200ms real-time update latency</li>
+                            <li>Mobile-responsive design with PWA capabilities</li>
+                            <li>99.9% uptime with automated error recovery</li>
+                        </ul>
+                    `;
+                    
+                default:
+                    return `
+                        <h2>Project Details</h2>
+                        <p>${project.excerpt}</p>
+                        
+                        <h2>Coming Soon</h2>
+                        <p>Detailed writeup for this project is currently being prepared. Check back soon for technical details, implementation notes, and lessons learned.</p>
+                        
+                        <p>In the meantime, feel free to check out the project links above to explore the code or try the live demo.</p>
+                    `;
+            }
+        }
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.querySelector('.theme-toggle');
+            const currentTheme = body.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                body.removeAttribute('data-theme');
+                button.innerHTML = '🌙 Dark';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                button.innerHTML = '☀️ Light';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Load saved theme on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            const button = document.querySelector('.theme-toggle');
+            
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                button.innerHTML = '☀️ Light';
+            } else {
+                button.innerHTML = '🌙 Dark';
+            }
+        });
+    </script>
+
+</body>
+</html>

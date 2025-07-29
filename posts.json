@@ -1,0 +1,74 @@
+[
+  {
+    "file": "hello-world",
+    "title": "Hello, World!",
+    "date": "July 28, 2025",
+    "excerpt": "My very first post exploring why I chose to write in Markdown for this blog."
+  },
+  {
+    "file": "web-development-trends",
+    "title": "Web Development Trends in 2025",
+    "date": "July 25, 2025",
+    "excerpt": "A deep dive into the latest trends shaping web development this year, from AI integration to performance optimization."
+  },
+  {
+    "file": "design-systems",
+    "title": "Building Scalable Design Systems",
+    "date": "July 22, 2025",
+    "excerpt": "How to create design systems that grow with your product and team, ensuring consistency across all touchpoints."
+  },
+  {
+    "file": "javascript-best-practices",
+    "title": "Modern JavaScript Best Practices",
+    "date": "July 18, 2025",
+    "excerpt": "Essential patterns and practices for writing clean, maintainable JavaScript in modern applications."
+  },
+  {
+    "file": "css-grid-mastery",
+    "title": "Mastering CSS Grid Layout",
+    "date": "July 15, 2025",
+    "excerpt": "A comprehensive guide to CSS Grid, from basic concepts to advanced layout techniques."
+  },
+  {
+    "file": "react-performance",
+    "title": "Optimizing React Performance",
+    "date": "July 12, 2025",
+    "excerpt": "Proven techniques to make your React applications faster and more responsive."
+  },
+  {
+    "file": "api-design-principles",
+    "title": "REST API Design Principles",
+    "date": "July 8, 2025",
+    "excerpt": "Essential principles for designing robust, scalable, and developer-friendly REST APIs."
+  },
+  {
+    "file": "typescript-migration",
+    "title": "Migrating to TypeScript",
+    "date": "July 5, 2025",
+    "excerpt": "A step-by-step guide to successfully migrating your JavaScript project to TypeScript."
+  },
+  {
+    "file": "accessibility-fundamentals",
+    "title": "Web Accessibility Fundamentals",
+    "date": "July 1, 2025",
+    "excerpt": "Making the web accessible to everyone: essential techniques and best practices."
+  },
+  {
+    "file": "git-workflow-strategies",
+    "title": "Git Workflow Strategies for Teams",
+    "date": "June 28, 2025",
+    "excerpt": "Comparing different Git workflows and choosing the right one for your team and project."
+  },
+  {
+    "file": "docker-development",
+    "title": "Docker for Development Teams",
+    "date": "June 25, 2025",
+    "excerpt": "How containerization with Docker can streamline your development workflow and improve consistency."
+  },
+  {
+    "file": "testing-strategies",
+    "title": "Modern Testing Strategies",
+    "date": "June 22, 2025",
+    "excerpt": "From unit tests to E2E testing: building a comprehensive testing strategy for web applications."
+  }
+]

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post | Rohan Giriraj</title> 
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech:wght@400&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1><a href="index.html">Rohan Giriraj</a></h1>
+            <nav>
+                <a href="index.html">About</a>
+                <a href="blog.html" class="active">Blog</a>
+                <a href="projects.html">Projects</a>
+                <a href="cv.html">CV</a>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                    🌙 Dark
+                </button>
+            </nav>
+        </header>
+
+        <main>
+            <div class="post-navigation">
+                <a href="blog.html" class="back-to-blog" id="backToBlog">
+                    ← Back to Blog
+                </a>
+            </div>
+            
+            <article id="post-content" class="post-body"></article>
+            
+            <div class="post-navigation bottom">
+                <a href="blog.html" class="back-to-blog" id="backToBlogBottom">
+                    ← Back to Blog
+                </a>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Rohan Giriraj. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // This script will fetch and render the markdown
+        (async function() {
+            // Get the filename from the URL (e.g., ?post=my-first-post)
+            const urlParams = new URLSearchParams(window.location.search);
+            const postFile = urlParams.get('post');
+
+            if (postFile) {
+                const postContentDiv = document.getElementById('post-content');
+                
+                try {
+                    // Fetch the markdown file from a 'posts' folder
+                    const response = await fetch(`posts/${postFile}.md`);
+                    if (!response.ok) {
+                        throw new Error('Post not found.');
+                    }
+                    const markdown = await response.text();
+                    
+                    // Convert Markdown to HTML using marked.js
+                    postContentDiv.innerHTML = marked.parse(markdown);
+
+                    // Optional: Set the page title from the first H1 in the post
+                    const firstHeading = postContentDiv.querySelector('h1');
+                    if(firstHeading) {
+                        document.title = firstHeading.textContent;
+                    }
+
+                } catch (error) {
+                    postContentDiv.innerHTML = `<p>Sorry, the requested post could not be found.</p>`;
+                    console.error('Error fetching post:', error);
+                }
+            } else {
+                document.getElementById('post-content').innerHTML = `<p>No post specified.</p>`;
+            }
+        })();
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.querySelector('.theme-toggle');
+            const currentTheme = body.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                body.removeAttribute('data-theme');
+                button.innerHTML = '🌙 Dark';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                button.innerHTML = '☀️ Light';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Load saved theme on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            const button = document.querySelector('.theme-toggle');
+            
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                button.innerHTML = '☀️ Light';
+            } else {
+                button.innerHTML = '🌙 Dark';
+            }
+            
+            // Set up smart back navigation
+            setupBackNavigation();
+        });
+
+        // Smart back navigation to blog list
+        function setupBackNavigation() {
+            const backButtons = document.querySelectorAll('.back-to-blog');
+            const urlParams = new URLSearchParams(window.location.search);
+            const fromPage = urlParams.get('from');
+            
+            // If we came from a specific page, link back to that page
+            if (fromPage && parseInt(fromPage) > 1) {
+                const blogUrl = `blog.html?page=${fromPage}`;
+                backButtons.forEach(button => {
+                    button.href = blogUrl;
+                    button.innerHTML = `← Back to Blog (Page ${fromPage})`;
+                });
+            } else {
+                // Default back to blog page 1
+                backButtons.forEach(button => {
+                    button.href = 'blog.html';
+                    button.innerHTML = '← Back to Blog';
+                });
+            }
+        }
+    </script>
+
+</body>
+</html>
