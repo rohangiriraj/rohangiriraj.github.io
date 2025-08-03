@@ -1,5 +1,17 @@
 [
   {
+    "file": "matrix-test",
+    "title": "LaTeX Matrix Test",
+    "date": "August 3, 2025",
+    "excerpt": "Testing matrix rendering to debug LaTeX issues."
+  },
+  {
+    "file": "latex-support-demo",
+    "title": "Mathematical Equations and LaTeX Examples",
+    "date": "August 3, 2025",
+    "excerpt": "Demonstrating LaTeX support for rendering mathematical equations and scientific notation in blog posts."
+  },
+  {
     "file": "hello-world",
     "title": "Hello, World!",
     "date": "July 28, 2025",

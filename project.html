@@ -10,6 +10,24 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech:wght@400&display=swap" rel="stylesheet">
 
+    <!-- MathJax CSS and Configuration -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
@@ -59,7 +77,7 @@
             
             if (projectSlug) {
                 try {
-                    // Load projects data
+                    // Load projects data for metadata
                     const response = await fetch('projects.json');
                     if (!response.ok) throw new Error('Could not load projects data.');
                     
@@ -67,7 +85,15 @@
                     const project = projects.find(p => p.slug === projectSlug);
                     
                     if (project) {
-                        renderProject(project);
+                        // Load markdown content from projects folder
+                        const markdownResponse = await fetch(`projects/${projectSlug}.md`);
+                        if (markdownResponse.ok) {
+                            const markdownContent = await markdownResponse.text();
+                            renderProject(project, markdownContent);
+                        } else {
+                            // Fallback to JSON-only rendering if markdown doesn't exist
+                            renderProject(project);
+                        }
                         document.title = `${project.title} | Rohan Giriraj`;
                     } else {
                         document.getElementById('project-content').innerHTML = `
@@ -97,7 +123,7 @@
             }
         })();
 
-        function renderProject(project) {
+        function renderProject(project, markdownContent = null) {
             const statusClass = project.status.toLowerCase().replace(' ', '-');
             const techStackHtml = project.techStack.map(tech => 
                 `<span class="tech-tag">${tech}</span>`
@@ -105,8 +131,10 @@
             
             const linksHtml = createProjectLinks(project.links);
             
-            // Create sample project content (you would load this from markdown files in a real implementation)
-            const projectContent = createProjectContent(project);
+            // Use markdown content if available, otherwise fall back to basic content
+            const projectContent = markdownContent ? 
+                marked.parse(markdownContent) : 
+                createFallbackContent(project);
             
             document.getElementById('project-content').innerHTML = `
                 <div class="project-header-detail">
@@ -137,6 +165,16 @@
                     ${projectContent}
                 </div>
             `;
+            
+            // Render LaTeX equations with MathJax
+            const projectContentDiv = document.querySelector('.project-content');
+            if (projectContentDiv && window.MathJax) {
+                MathJax.typesetPromise([projectContentDiv]).then(() => {
+                    console.log('MathJax rendering completed successfully for project');
+                }).catch((err) => {
+                    console.error('MathJax rendering error:', err);
+                });
+            }
         }
 
         function createProjectLinks(links) {
@@ -147,104 +185,17 @@
             return html || '<p class="no-links">Links will be available soon.</p>';
         }
 
-        function createProjectContent(project) {
-            // This is sample content - in a real implementation, you'd load markdown files
-            switch(project.slug) {
-                case 'personal-portfolio-website':
-                    return `
-                        <h2>Project Overview</h2>
-                        <p>This portfolio website was built from scratch using modern web technologies with a focus on performance, accessibility, and user experience. The design follows the Serika theme aesthetic popular in the mechanical keyboard community.</p>
-                        
-                        <h2>Key Features</h2>
-                        <ul>
-                            <li><strong>Responsive Design:</strong> Optimized for all device sizes</li>
-                            <li><strong>Dark/Light Theme:</strong> Toggle between Serika light and dark themes</li>
-                            <li><strong>Blog System:</strong> Markdown-based blog with pagination</li>
-                            <li><strong>Project Showcase:</strong> Dedicated section for technical projects</li>
-                            <li><strong>Performance:</strong> Vanilla JS for fast loading times</li>
-                        </ul>
-                        
-                        <h2>Technical Implementation</h2>
-                        <p>The site uses a simple but effective architecture:</p>
-                        <ul>
-                            <li>JSON-based content management for blog posts and projects</li>
-                            <li>CSS custom properties for seamless theme switching</li>
-                            <li>JavaScript modules for pagination and interactivity</li>
-                            <li>Semantic HTML for accessibility</li>
-                        </ul>
-                        
-                        <h2>Challenges & Solutions</h2>
-                        <p>One of the main challenges was implementing smooth pagination while maintaining clean URLs and bookmarkable pages. This was solved by using URL parameters and history API for seamless navigation.</p>
-                    `;
-                    
-                case 'data-pipeline-automation':
-                    return `
-                        <h2>Project Overview</h2>
-                        <p>A comprehensive ETL pipeline built to handle large-scale data processing with automated monitoring, error handling, and recovery mechanisms.</p>
-                        
-                        <h2>Architecture</h2>
-                        <p>The pipeline follows a microservices architecture with the following components:</p>
-                        <ul>
-                            <li><strong>Data Ingestion:</strong> Multi-source data collection (APIs, databases, files)</li>
-                            <li><strong>Processing Engine:</strong> Apache Airflow for orchestration</li>
-                            <li><strong>Data Validation:</strong> Custom validators for data quality</li>
-                            <li><strong>Storage:</strong> PostgreSQL for structured data, S3 for raw files</li>
-                            <li><strong>Monitoring:</strong> Real-time alerts and dashboards</li>
-                        </ul>
-                        
-                        <h2>Performance Metrics</h2>
-                        <ul>
-                            <li>Processes 10M+ records daily</li>
-                            <li>99.9% uptime with automated failover</li>
-                            <li>Sub-minute error detection and alerting</li>
-                            <li>Automatic retry mechanisms for transient failures</li>
-                        </ul>
-                    `;
-                    
-                case 'task-management-app':
-                    return `
-                        <h2>Project Overview</h2>
-                        <p>A comprehensive task management application designed for teams who need real-time collaboration and advanced project organization capabilities.</p>
-                        
-                        <h2>Key Features</h2>
-                        <ul>
-                            <li><strong>Real-time Collaboration:</strong> Live updates using Socket.io</li>
-                            <li><strong>Drag & Drop Interface:</strong> Intuitive task organization</li>
-                            <li><strong>Advanced Filtering:</strong> Sort by priority, assignee, due date</li>
-                            <li><strong>Team Management:</strong> Role-based permissions and notifications</li>
-                            <li><strong>Progress Tracking:</strong> Visual dashboards and analytics</li>
-                        </ul>
-                        
-                        <h2>Technical Architecture</h2>
-                        <p>Built with a modern tech stack focusing on performance and scalability:</p>
-                        <ul>
-                            <li><strong>Frontend:</strong> React with TypeScript for type safety</li>
-                            <li><strong>Backend:</strong> Node.js with Express and Socket.io</li>
-                            <li><strong>Database:</strong> MongoDB with optimized indexing</li>
-                            <li><strong>Real-time:</strong> WebSocket connections for instant updates</li>
-                            <li><strong>Authentication:</strong> JWT-based secure user sessions</li>
-                        </ul>
-                        
-                        <h2>Performance Metrics</h2>
-                        <ul>
-                            <li>Supports 100+ concurrent users per workspace</li>
-                            <li>Sub-200ms real-time update latency</li>
-                            <li>Mobile-responsive design with PWA capabilities</li>
-                            <li>99.9% uptime with automated error recovery</li>
-                        </ul>
-                    `;
-                    
-                default:
-                    return `
-                        <h2>Project Details</h2>
-                        <p>${project.excerpt}</p>
-                        
-                        <h2>Coming Soon</h2>
-                        <p>Detailed writeup for this project is currently being prepared. Check back soon for technical details, implementation notes, and lessons learned.</p>
-                        
-                        <p>In the meantime, feel free to check out the project links above to explore the code or try the live demo.</p>
-                    `;
-            }
+        function createFallbackContent(project) {
+            // Fallback content when markdown file is not available
+            return `
+                <h2>Project Overview</h2>
+                <p>${project.excerpt}</p>
+                
+                <h2>Coming Soon</h2>
+                <p>Detailed writeup for this project is currently being prepared. Check back soon for technical details, implementation notes, and lessons learned.</p>
+                
+                <p>In the meantime, feel free to check out the project links above to explore the code or try the live demo.</p>
+            `;
         }
 
         // Theme toggle functionality

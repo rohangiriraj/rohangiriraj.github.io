@@ -10,6 +10,24 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech:wght@400&display=swap" rel="stylesheet">
 
+    <!-- MathJax CSS and Configuration -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
@@ -69,6 +87,15 @@
                     
                     // Convert Markdown to HTML using marked.js
                     postContentDiv.innerHTML = marked.parse(markdown);
+
+                    // Render LaTeX equations with MathJax
+                    if (window.MathJax) {
+                        MathJax.typesetPromise([postContentDiv]).then(() => {
+                            console.log('MathJax rendering completed successfully');
+                        }).catch((err) => {
+                            console.error('MathJax rendering error:', err);
+                        });
+                    }
 
                     // Optional: Set the page title from the first H1 in the post
                     const firstHeading = postContentDiv.querySelector('h1');
