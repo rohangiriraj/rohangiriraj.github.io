@@ -199,6 +199,13 @@ main section h2 {
     transition: all 0.3s ease;
 }
 
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+}
+
 .profile-picture:hover {
     transform: scale(1.05);
     box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
@@ -322,6 +329,7 @@ footer {
     border-radius: 3px;
     font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
     color: var(--text-color);
+    text-shadow: none;
 }
 
 .post-body pre {
@@ -330,11 +338,13 @@ footer {
     padding: 1rem;
     border-radius: 5px;
     overflow-x: auto;
+    text-shadow: none;
 }
 
 .post-body pre code {
     background-color: transparent;
     padding: 0;
+    text-shadow: none;
 }
 
 /* --- STYLES FOR BLOG LIST PAGE --- */
@@ -1066,4 +1076,181 @@ footer {
     .tech-stack {
         justify-content: center;
     }
+}
+
+/* --- SYNTAX HIGHLIGHTING CUSTOMIZATION --- */
+
+/* Base styles for code blocks */
+.post-body pre[class*="language-"] {
+    background-color: var(--sub-alt-color) !important;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 1rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    text-shadow: none !important; /* Remove any text shadow */
+}
+
+.post-body code[class*="language-"] {
+    background-color: transparent !important;
+    font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
+    text-shadow: none !important; /* Remove any text shadow */
+}
+
+/* Light mode syntax highlighting */
+body:not([data-theme="dark"]) .post-body pre[class*="language-"] {
+    background-color: #f8f9fa !important;
+    border-color: #e9ecef !important;
+    color: #212529 !important;
+}
+
+body:not([data-theme="dark"]) .post-body code[class*="language-"] {
+    color: #212529 !important;
+}
+
+/* Light mode token colors */
+body:not([data-theme="dark"]) .token.comment,
+body:not([data-theme="dark"]) .token.prolog,
+body:not([data-theme="dark"]) .token.doctype,
+body:not([data-theme="dark"]) .token.cdata {
+    color: #6c757d !important;
+}
+
+body:not([data-theme="dark"]) .token.punctuation {
+    color: #495057 !important;
+}
+
+body:not([data-theme="dark"]) .token.property,
+body:not([data-theme="dark"]) .token.tag,
+body:not([data-theme="dark"]) .token.constant,
+body:not([data-theme="dark"]) .token.symbol,
+body:not([data-theme="dark"]) .token.deleted {
+    color: #d63384 !important;
+}
+
+body:not([data-theme="dark"]) .token.boolean,
+body:not([data-theme="dark"]) .token.number {
+    color: #fd7e14 !important;
+}
+
+body:not([data-theme="dark"]) .token.selector,
+body:not([data-theme="dark"]) .token.attr-name,
+body:not([data-theme="dark"]) .token.string,
+body:not([data-theme="dark"]) .token.char,
+body:not([data-theme="dark"]) .token.builtin,
+body:not([data-theme="dark"]) .token.inserted {
+    color: #198754 !important;
+}
+
+body:not([data-theme="dark"]) .token.operator,
+body:not([data-theme="dark"]) .token.entity,
+body:not([data-theme="dark"]) .token.url,
+body:not([data-theme="dark"]) .language-css .token.string,
+body:not([data-theme="dark"]) .style .token.string {
+    color: #20c997 !important;
+}
+
+body:not([data-theme="dark"]) .token.atrule,
+body:not([data-theme="dark"]) .token.attr-value,
+body:not([data-theme="dark"]) .token.keyword {
+    color: #6f42c1 !important;
+}
+
+body:not([data-theme="dark"]) .token.function,
+body:not([data-theme="dark"]) .token.class-name {
+    color: #0d6efd !important;
+}
+
+body:not([data-theme="dark"]) .token.regex,
+body:not([data-theme="dark"]) .token.important,
+body:not([data-theme="dark"]) .token.variable {
+    color: #dc3545 !important;
+}
+
+/* Dark mode syntax highlighting */
+[data-theme="dark"] .post-body pre[class*="language-"] {
+    background-color: #1e1e1e !important;
+    border-color: #333 !important;
+    color: #d4d4d4 !important;
+}
+
+[data-theme="dark"] .post-body code[class*="language-"] {
+    color: #d4d4d4 !important;
+}
+
+/* Dark mode token colors */
+[data-theme="dark"] .token.comment,
+[data-theme="dark"] .token.prolog,
+[data-theme="dark"] .token.doctype,
+[data-theme="dark"] .token.cdata {
+    color: #6a9955 !important;
+}
+
+[data-theme="dark"] .token.punctuation {
+    color: #d4d4d4 !important;
+}
+
+[data-theme="dark"] .token.property,
+[data-theme="dark"] .token.tag,
+[data-theme="dark"] .token.constant,
+[data-theme="dark"] .token.symbol,
+[data-theme="dark"] .token.deleted {
+    color: #f92672 !important;
+}
+
+[data-theme="dark"] .token.boolean,
+[data-theme="dark"] .token.number {
+    color: #ae81ff !important;
+}
+
+[data-theme="dark"] .token.selector,
+[data-theme="dark"] .token.attr-name,
+[data-theme="dark"] .token.string,
+[data-theme="dark"] .token.char,
+[data-theme="dark"] .token.builtin,
+[data-theme="dark"] .token.inserted {
+    color: #a6e22e !important;
+}
+
+[data-theme="dark"] .token.operator,
+[data-theme="dark"] .token.entity,
+[data-theme="dark"] .token.url,
+[data-theme="dark"] .language-css .token.string,
+[data-theme="dark"] .style .token.string {
+    color: #66d9ef !important;
+}
+
+[data-theme="dark"] .token.atrule,
+[data-theme="dark"] .token.attr-value,
+[data-theme="dark"] .token.keyword {
+    color: #66d9ef !important;
+}
+
+[data-theme="dark"] .token.function,
+[data-theme="dark"] .token.class-name {
+    color: #66d9ef !important;
+}
+
+[data-theme="dark"] .token.regex,
+[data-theme="dark"] .token.important,
+[data-theme="dark"] .token.variable {
+    color: #fd971f !important;
+}
+
+/* Ensure inline code maintains existing styling */
+.post-body :not(pre) > code {
+    background-color: var(--sub-alt-color);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
+    color: var(--text-color);
+    text-shadow: none !important; /* Remove any text shadow */
+}
+
+/* Copy button styling if you want to add it later */
+.post-body pre[class*="language-"] {
+    position: relative;
 }

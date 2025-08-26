@@ -1,5 +1,11 @@
 [
   {
+    "file": "syntax-highlighting-demo",
+    "title": "Syntax Highlighting Demo",
+    "date": "August 26, 2025",
+    "excerpt": "Demonstrating code syntax highlighting with examples in JavaScript, Python, CSS, HTML, Bash, and JSON."
+  },
+  {
     "file": "matrix-test",
     "title": "LaTeX Matrix Test",
     "date": "August 3, 2025",
