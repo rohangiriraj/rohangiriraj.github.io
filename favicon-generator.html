@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Favicon Generator</title>
+</head>
+<body>
+    <canvas id="favicon16" width="16" height="16" style="border: 1px solid #ccc; margin: 10px;"></canvas>
+    <canvas id="favicon32" width="32" height="32" style="border: 1px solid #ccc; margin: 10px;"></canvas>
+    <br>
+    <button onclick="downloadFavicons()">Download Favicons</button>
+    
+    <script>
+        function createFavicon(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            
+            // Dark background
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Grid pattern
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 0.5;
+            const gridSize = size / 4;
+            for (let i = 0; i <= size; i += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, size);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(0, i);
+                ctx.lineTo(size, i);
+                ctx.stroke();
+            }
+            
+            // Retro green color
+            ctx.fillStyle = '#00ff88';
+            
+            const scale = size / 32;
+            
+            // Draw R
+            ctx.fillRect(4 * scale, 8 * scale, 2 * scale, 16 * scale);
+            ctx.fillRect(4 * scale, 8 * scale, 6 * scale, 2 * scale);
+            ctx.fillRect(4 * scale, 15 * scale, 6 * scale, 2 * scale);
+            ctx.fillRect(10 * scale, 8 * scale, 2 * scale, 7 * scale);
+            ctx.fillRect(8 * scale, 17 * scale, 2 * scale, 7 * scale);
+            
+            // Draw G
+            ctx.fillRect(18 * scale, 8 * scale, 8 * scale, 2 * scale);
+            ctx.fillRect(18 * scale, 8 * scale, 2 * scale, 16 * scale);
+            ctx.fillRect(18 * scale, 22 * scale, 8 * scale, 2 * scale);
+            ctx.fillRect(24 * scale, 15 * scale, 2 * scale, 9 * scale);
+            ctx.fillRect(22 * scale, 15 * scale, 4 * scale, 2 * scale);
+        }
+        
+        function downloadFavicons() {
+            // Download 16x16
+            const link16 = document.createElement('a');
+            link16.download = 'favicon-16x16.png';
+            link16.href = document.getElementById('favicon16').toDataURL();
+            link16.click();
+            
+            // Download 32x32
+            const link32 = document.createElement('a');
+            link32.download = 'favicon-32x32.png';
+            link32.href = document.getElementById('favicon32').toDataURL();
+            link32.click();
+        }
+        
+        // Create favicons
+        createFavicon(document.getElementById('favicon16'), 16);
+        createFavicon(document.getElementById('favicon32'), 32);
+    </script>
+</body>
+</html>
