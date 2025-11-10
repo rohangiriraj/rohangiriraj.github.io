@@ -101,7 +101,7 @@
                 
                 try {
                     // Fetch the markdown file from a 'posts' folder
-                    const response = await fetch(`posts/${postFile}.md`);
+                    const response = await fetch(`content/posts/${postFile}.md`);
                     if (!response.ok) {
                         throw new Error('Post not found.');
                     }

@@ -92,7 +92,7 @@
                     
                     if (project) {
                         // Load markdown content from projects folder
-                        const markdownResponse = await fetch(`projects/${projectSlug}.md`);
+                        const markdownResponse = await fetch(`content/projects/${projectSlug}.md`);
                         if (markdownResponse.ok) {
                             const markdownContent = await markdownResponse.text();
                             renderProject(project, markdownContent);
