@@ -14,7 +14,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech:wght@400&family=SUSE+Mono:ital,wght@0,100..800;1,100..800&family=Stack+Sans+Notch:wght@200..700&display=swap" rel="stylesheet">
 
     <!-- MathJax CSS and Configuration -->
     <script>
@@ -65,7 +65,21 @@
                 </a>
             </div>
             
-            <article id="post-content" class="post-body"></article>
+            <article class="post-body">
+                <header class="post-header">
+                    <h1 id="post-title"></h1>
+                    <div class="post-byline">
+                        <div class="post-author">
+                            <span class="author-label">By</span>
+                            <span class="author-name">Rohan Giriraj</span>
+                        </div>
+                        <div class="post-date">
+                            <span id="post-date"></span>
+                        </div>
+                    </div>
+                </header>
+                <div id="post-content" class="post-content"></div>
+            </article>
             
             <div class="post-navigation bottom">
                 <a href="blog.html" class="back-to-blog" id="backToBlogBottom">
@@ -100,8 +114,15 @@
 
             if (postFile) {
                 const postContentDiv = document.getElementById('post-content');
+                const postTitleElement = document.getElementById('post-title');
+                const postDateElement = document.getElementById('post-date');
                 
                 try {
+                    // First, fetch post metadata from posts.json
+                    const postsResponse = await fetch('posts.json');
+                    const posts = await postsResponse.json();
+                    const postMetadata = posts.find(post => post.file === postFile);
+                    
                     // Fetch the markdown file from a 'posts' folder
                     const response = await fetch(`content/posts/${postFile}.md`);
                     if (!response.ok) {
@@ -110,7 +131,33 @@
                     const markdown = await response.text();
                     
                     // Convert Markdown to HTML using marked.js
-                    postContentDiv.innerHTML = marked.parse(markdown);
+                    const htmlContent = marked.parse(markdown);
+                    
+                    // Extract the first H1 for the title and remove it from content
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = htmlContent;
+                    const firstHeading = tempDiv.querySelector('h1');
+                    
+                    if (firstHeading) {
+                        // Set the title in the header
+                        postTitleElement.textContent = firstHeading.textContent;
+                        // Remove the H1 from the content to avoid duplication
+                        firstHeading.remove();
+                        // Update the page title
+                        document.title = `${firstHeading.textContent} | Rohan Giriraj`;
+                    } else if (postMetadata) {
+                        // Fallback to metadata title
+                        postTitleElement.textContent = postMetadata.title;
+                        document.title = `${postMetadata.title} | Rohan Giriraj`;
+                    }
+                    
+                    // Set the date from metadata
+                    if (postMetadata) {
+                        postDateElement.textContent = formatDate(postMetadata.date);
+                    }
+                    
+                    // Set the processed content
+                    postContentDiv.innerHTML = tempDiv.innerHTML;
 
                     // Apply syntax highlighting to any code blocks that weren't caught by marked
                     Prism.highlightAllUnder(postContentDiv);
@@ -124,12 +171,6 @@
                         });
                     }
 
-                    // Optional: Set the page title from the first H1 in the post
-                    const firstHeading = postContentDiv.querySelector('h1');
-                    if(firstHeading) {
-                        document.title = firstHeading.textContent;
-                    }
-
                 } catch (error) {
                     postContentDiv.innerHTML = `<p>Sorry, the requested post could not be found.</p>`;
                     console.error('Error fetching post:', error);
@@ -138,6 +179,27 @@
                 document.getElementById('post-content').innerHTML = `<p>No post specified.</p>`;
             }
         })();
+
+        // Format date in a more readable format
+        function formatDate(dateString) {
+            try {
+                const date = new Date(dateString);
+                // If the date is invalid, return the original string
+                if (isNaN(date.getTime())) {
+                    return dateString;
+                }
+                
+                const options = { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric'
+                };
+                return date.toLocaleDateString('en-US', options);
+            } catch (error) {
+                // If parsing fails, return the original string
+                return dateString;
+            }
+        }
 
         // Theme toggle functionality
         function toggleTheme() {
@@ -156,16 +218,19 @@
             }
         }
 
-        // Load saved theme on page load
+        // Load saved theme on page load - default to dark mode
         document.addEventListener('DOMContentLoaded', function() {
             const savedTheme = localStorage.getItem('theme');
             const button = document.querySelector('.theme-toggle');
             
-            if (savedTheme === 'dark') {
+            // Default to dark mode if no preference is saved
+            if (savedTheme === 'light') {
+                document.body.removeAttribute('data-theme');
+                button.innerHTML = '🌙 Dark';
+            } else {
+                // Default dark mode (savedTheme === 'dark' or null/undefined)
                 document.body.setAttribute('data-theme', 'dark');
                 button.innerHTML = '☀️ Light';
-            } else {
-                button.innerHTML = '🌙 Dark';
             }
             
             // Set up smart back navigation

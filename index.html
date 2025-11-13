@@ -14,7 +14,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech:wght@400&family=SUSE+Mono:ital,wght@0,100..800;1,100..800&family=Stack+Sans+Notch:wght@200..700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -108,16 +108,19 @@
             }
         }
 
-        // Load saved theme on page load
+        // Load saved theme on page load - default to dark mode
         document.addEventListener('DOMContentLoaded', function() {
             const savedTheme = localStorage.getItem('theme');
             const button = document.querySelector('.theme-toggle');
             
-            if (savedTheme === 'dark') {
+            // Default to dark mode if no preference is saved
+            if (savedTheme === 'light') {
+                document.body.removeAttribute('data-theme');
+                button.innerHTML = '🌙 Dark';
+            } else {
+                // Default dark mode (savedTheme === 'dark' or null/undefined)
                 document.body.setAttribute('data-theme', 'dark');
                 button.innerHTML = '☀️ Light';
-            } else {
-                button.innerHTML = '🌙 Dark';
             }
         });
     </script>
