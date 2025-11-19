@@ -1,93 +1,402 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CV | Rohan Giriraj</title>
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
     <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
     <link rel="apple-touch-icon" href="assets/icons/favicon.svg">
-    
+
     <link rel="stylesheet" href="assets/css/style.css">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech:wght@400&family=SUSE+Mono:ital,wght@0,100..800;1,100..800&family=Stack+Sans+Notch:wght@200..700&display=swap" rel="stylesheet">
+
+    <style>
+        /* CV Specific Styles */
+        .cv-container {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 3rem;
+            box-shadow: var(--shadow-sm);
+            margin-top: 2rem;
+        }
+
+        .cv-header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .cv-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cv-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .cv-contact a {
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cv-contact a:hover {
+            color: var(--accent-primary);
+        }
+
+        .cv-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .cv-section h2 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--accent-glow);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        .cv-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .cv-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .cv-item-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .cv-item-subtitle {
+            font-weight: 500;
+            color: var(--accent-primary);
+        }
+
+        .cv-item-date {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+        }
+
+        .cv-item-content ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .cv-item-content li {
+            position: relative;
+            padding-left: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .cv-item-content li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-category h3 {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            font-size: 0.85rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-full);
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .cv-container {
+                padding: 1.5rem;
+            }
+
+            .cv-header {
+                flex-direction: column;
+            }
+
+            .cv-item-header {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+        }
+
+        @media print {
+
+            .theme-toggle,
+            nav,
+            footer,
+            .cv-download {
+                display: none;
+            }
+
+            body {
+                background: white;
+                color: black;
+            }
+
+            .cv-container {
+                box-shadow: none;
+                border: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            a {
+                text-decoration: none;
+                color: black;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-    <div class="container">
-        <header>
+    <header>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
             <h1><a href="index.html">Rohan Giriraj</a></h1>
             <nav>
-                <div class="nav-container">
+                <div class="nav-links">
                     <a href="index.html">About</a>
                     <a href="blog.html">Blog</a>
                     <a href="projects.html">Projects</a>
                     <a href="cv.html" class="active">CV</a>
                 </div>
                 <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-                    Light/Dark
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5" />
+                        <path
+                            d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                    </svg>
                 </button>
             </nav>
-        </header>
+        </div>
+    </header>
 
-        <main>
-            <div class="page-intro">
-                <h2>Curriculum Vitae</h2>
-                <p>Software Engineer specializing in backend engineering, data engineering, and data science.</p>
-            </div>
-
-            <div class="cv-content">
-                <section class="cv-section">
-                    <h3>Experience</h3>
-                    <div class="cv-item">
-                        <h4>Software Engineer</h4>
-                        <p class="cv-meta">Company Name • 2023 - Present</p>
-                        <p>Brief description of your role and key achievements in backend engineering and data science.</p>
-                    </div>
-                    <!-- Add more experience items as needed -->
-                </section>
-
-                <section class="cv-section">
-                    <h3>Education</h3>
-                    <div class="cv-item">
-                        <h4>Degree Name</h4>
-                        <p class="cv-meta">University Name • Year</p>
-                        <p>Relevant coursework or achievements.</p>
-                    </div>
-                </section>
-
-                <section class="cv-section">
-                    <h3>Skills</h3>
-                    <div class="skills-grid">
-                        <div class="skill-category">
-                            <h5>Backend Engineering</h5>
-                            <p>Python, Java, Node.js, APIs, Microservices</p>
-                        </div>
-                        <div class="skill-category">
-                            <h5>Data Engineering</h5>
-                            <p>SQL, ETL, Data Pipelines, Apache Spark</p>
-                        </div>
-                        <div class="skill-category">
-                            <h5>Data Science</h5>
-                            <p>Machine Learning, Analytics, Visualization</p>
-                        </div>
-                    </div>
-                </section>
-
-                <div class="cv-download">
-                    <a href="#" class="button">Download PDF</a>
+    <main class="container">
+        <div class="cv-container">
+            <div class="cv-header">
+                <div class="cv-title">
+                    <h1>Rohan Giriraj</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-secondary);">Software Engineer</p>
+                </div>
+                <div class="cv-contact">
+                    <a href="mailto:your.email@example.com">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                            </path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        your.email@example.com
+                    </a>
+                    <a href="https://linkedin.com/in/yourprofile" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                            </path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                        linkedin.com/in/yourprofile
+                    </a>
+                    <a href="https://github.com/yourusername" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                            </path>
+                        </svg>
+                        github.com/yourusername
+                    </a>
+                    <a href="https://rohangiriraj.github.io" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path
+                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                            </path>
+                        </svg>
+                        rohangiriraj.github.io
+                    </a>
                 </div>
             </div>
-        </main>
 
-        <footer>
+            <div class="cv-section">
+                <h2>Experience</h2>
+
+                <div class="cv-item">
+                    <div class="cv-item-header">
+                        <div>
+                            <span class="cv-item-title">Senior Software Engineer</span>
+                            <span style="margin: 0 0.5rem; color: var(--text-tertiary);">|</span>
+                            <span class="cv-item-subtitle">Tech Company Inc.</span>
+                        </div>
+                        <span class="cv-item-date">2023 - Present</span>
+                    </div>
+                    <div class="cv-item-content">
+                        <ul>
+                            <li>Led the development of a high-scale distributed system processing 1M+ events per second.
+                            </li>
+                            <li>Optimized database queries resulting in a 40% reduction in latency.</li>
+                            <li>Mentored junior engineers and established code quality standards.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="cv-item">
+                    <div class="cv-item-header">
+                        <div>
+                            <span class="cv-item-title">Software Engineer</span>
+                            <span style="margin: 0 0.5rem; color: var(--text-tertiary);">|</span>
+                            <span class="cv-item-subtitle">Startup Co.</span>
+                        </div>
+                        <span class="cv-item-date">2021 - 2023</span>
+                    </div>
+                    <div class="cv-item-content">
+                        <ul>
+                            <li>Developed full-stack features using React and Node.js.</li>
+                            <li>Implemented CI/CD pipelines reducing deployment time by 50%.</li>
+                            <li>Collaborated with product teams to define requirements and roadmap.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cv-section">
+                <h2>Education</h2>
+
+                <div class="cv-item">
+                    <div class="cv-item-header">
+                        <div>
+                            <span class="cv-item-title">Bachelor of Technology in Computer Science</span>
+                            <span style="margin: 0 0.5rem; color: var(--text-tertiary);">|</span>
+                            <span class="cv-item-subtitle">University of Technology</span>
+                        </div>
+                        <span class="cv-item-date">2017 - 2021</span>
+                    </div>
+                    <div class="cv-item-content">
+                        <ul>
+                            <li>Graduated with Honors. GPA: 3.8/4.0</li>
+                            <li>Relevant Coursework: Data Structures, Algorithms, Distributed Systems, Machine Learning.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cv-section">
+                <h2>Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>Languages</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">JavaScript/TypeScript</span>
+                            <span class="skill-tag">Go</span>
+                            <span class="skill-tag">SQL</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Backend</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">Django</span>
+                            <span class="skill-tag">FastAPI</span>
+                            <span class="skill-tag">PostgreSQL</span>
+                            <span class="skill-tag">Redis</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>DevOps & Tools</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Docker</span>
+                            <span class="skill-tag">Kubernetes</span>
+                            <span class="skill-tag">AWS</span>
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">Linux</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Data Science</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Pandas</span>
+                            <span class="skill-tag">NumPy</span>
+                            <span class="skill-tag">Scikit-learn</span>
+                            <span class="skill-tag">TensorFlow</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cv-download" style="text-align: center; margin-top: 3rem;">
+            <a href="#" class="button button-primary" onclick="window.print(); return false;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    style="margin-right: 0.5rem;">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Download PDF
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
             <p>&copy; 2025 Rohan Giriraj. All rights reserved.</p>
-        </footer>
-    </div>
+        </div>
+    </footer>
 
     <script>
         // Theme toggle functionality
@@ -95,34 +404,41 @@
             const body = document.body;
             const button = document.querySelector('.theme-toggle');
             const currentTheme = body.getAttribute('data-theme');
-            
+
             if (currentTheme === 'dark') {
                 body.removeAttribute('data-theme');
-                button.innerHTML = '🌙 Dark';
                 localStorage.setItem('theme', 'light');
+                updateThemeIcon('light');
             } else {
                 body.setAttribute('data-theme', 'dark');
-                button.innerHTML = '☀️ Light';
                 localStorage.setItem('theme', 'dark');
+                updateThemeIcon('dark');
             }
         }
 
-        // Load saved theme on page load - default to dark mode
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme');
+        function updateThemeIcon(theme) {
             const button = document.querySelector('.theme-toggle');
-            
-            // Default to dark mode if no preference is saved
+            if (theme === 'dark') {
+                button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
+            } else {
+                button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+            }
+        }
+
+        // Load saved theme on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            const savedTheme = localStorage.getItem('theme');
+
             if (savedTheme === 'light') {
                 document.body.removeAttribute('data-theme');
-                button.innerHTML = '🌙 Dark';
+                updateThemeIcon('light');
             } else {
-                // Default dark mode (savedTheme === 'dark' or null/undefined)
                 document.body.setAttribute('data-theme', 'dark');
-                button.innerHTML = '☀️ Light';
+                updateThemeIcon('dark');
             }
         });
     </script>
 
 </body>
+
 </html>

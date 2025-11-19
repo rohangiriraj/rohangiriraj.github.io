@@ -22,25 +22,7 @@ Or using bracket notation:
 \sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6}
 \\]
 
-## Complex Equations
 
-Here's a more complex example showing matrix notation:
-
-$$
-\begin{pmatrix}
-a & b \\
-c & d
-\end{pmatrix}
-\begin{pmatrix}
-x \\
-y
-\end{pmatrix}
-=
-\begin{pmatrix}
-ax + by \\
-cx + dy
-\end{pmatrix}
-$$
 
 ## Scientific Notation
 
