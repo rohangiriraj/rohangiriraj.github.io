@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Rohan Giriraj</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
+    <link rel="apple-touch-icon" href="assets/icons/favicon.svg">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+
+<body>
+
+    <header>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <h1><a href="index.html">Rohan Giriraj</a></h1>
+            <nav>
+                <div class="nav-links">
+                    <a href="index.html">About</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="projects.html" class="active">Projects</a>
+                    <a href="cv.html">CV</a>
+                </div>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5" />
+                        <path
+                            d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                    </svg>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-intro">
+            <h2>My Projects</h2>
+            <p>A showcase of my technical work spanning backend engineering, data science, and full-stack development.
+            </p>
+        </div>
+
+        <div class="project-filters" style="margin-bottom: 2rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button class="button button-secondary filter-btn active" data-filter="all">All Projects</button>
+            <button class="button button-secondary filter-btn" data-filter="featured">Featured</button>
+            <button class="button button-secondary filter-btn" data-filter="complete">Complete</button>
+            <button class="button button-secondary filter-btn" data-filter="in-progress">In Progress</button>
+        </div>
+
+        <div class="projects-grid" id="projectsGrid">
+            <!-- Projects will be loaded here -->
+        </div>
+
+        <div class="pagination" id="projectsPagination"
+            style="display: none; margin-top: 3rem; justify-content: center; gap: 1rem; align-items: center;">
+            <button class="button button-secondary pagination-btn prev-btn" id="prevBtnProjects" disabled>
+                <span>← Previous</span>
+            </button>
+            <div class="pagination-info"
+                style="color: var(--text-secondary); font-family: var(--font-mono); font-size: 0.9rem;">
+                <span id="pageInfoProjects">Page 1 of 1</span>
+            </div>
+            <button class="button button-secondary pagination-btn next-btn" id="nextBtnProjects" disabled>
+                <span>Next →</span>
+            </button>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Rohan Giriraj. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Projects page functionality
+        (async function () {
+            const projectsGrid = document.getElementById('projectsGrid');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const prevBtn = document.getElementById('prevBtnProjects');
+            const nextBtn = document.getElementById('nextBtnProjects');
+            const pageInfo = document.getElementById('pageInfoProjects');
+            const pagination = document.getElementById('projectsPagination');
+
+            const PROJECTS_PER_PAGE = 6; // Increased for better grid layout
+            let currentPage = 1;
+            let allProjects = [];
+            let filteredProjects = [];
+            let currentFilter = 'all';
+            let totalPages = 1;
+
+            // Load projects data
+            async function loadProjects() {
+                try {
+                    const response = await fetch('projects.json');
+                    if (!response.ok) throw new Error('Could not load projects data.');
+
+                    allProjects = await response.json();
+                    filteredProjects = [...allProjects];
+
+                    if (allProjects.length === 0) {
+                        projectsGrid.innerHTML = '<p class="no-projects">No projects to display yet. Check back soon!</p>';
+                        return;
+                    }
+
+                    setupPagination();
+                    renderProjects();
+
+                } catch (error) {
+                    console.error('Error loading projects:', error);
+                    projectsGrid.innerHTML = '<p class="error-message">Sorry, there was an error loading the projects.</p>';
+                }
+            }
+
+            // Setup pagination
+            function setupPagination() {
+                totalPages = Math.ceil(filteredProjects.length / PROJECTS_PER_PAGE);
+                currentPage = Math.min(currentPage, totalPages || 1);
+
+                if (totalPages <= 1) {
+                    pagination.style.display = 'none';
+                } else {
+                    pagination.style.display = 'flex';
+                }
+
+                updatePaginationControls();
+            }
+
+            // Render projects for current page
+            function renderProjects() {
+                const startIndex = (currentPage - 1) * PROJECTS_PER_PAGE;
+                const endIndex = startIndex + PROJECTS_PER_PAGE;
+                const projectsToShow = filteredProjects.slice(startIndex, endIndex);
+
+                projectsGrid.style.opacity = '0';
+
+                setTimeout(() => {
+                    projectsGrid.innerHTML = '';
+
+                    projectsToShow.forEach(project => {
+                        const projectCard = createProjectCard(project);
+                        projectsGrid.appendChild(projectCard);
+                    });
+
+                    projectsGrid.style.opacity = '1';
+                }, 150);
+            }
+
+            // Create project card HTML
+            function createProjectCard(project) {
+                const card = document.createElement('div');
+                card.className = 'project-card';
+
+                const statusClass = project.status.toLowerCase().replace(' ', '-');
+                const techStackHtml = project.techStack.slice(0, 3).map(tech =>
+                    `<span class="tech-tag">${tech}</span>`
+                ).join('');
+
+                const moreCount = project.techStack.length > 3 ? project.techStack.length - 3 : 0;
+                const moreText = moreCount > 0 ? `<span class="tech-tag" style="background: transparent; border: none;">+${moreCount}</span>` : '';
+
+                const linksHtml = createLinksHtml(project.links);
+
+                card.innerHTML = `
+                    <div class="project-header">
+                        <div class="project-status ${statusClass}">${project.status}</div>
+                        ${project.featured ? '<div class="project-featured" style="font-size: 0.8rem; color: var(--accent-primary);">⭐ Featured</div>' : ''}
+                    </div>
+                    <h3><a href="project.html?project=${project.slug}">${project.title}</a></h3>
+                    <p class="project-description">${project.description}</p>
+                    <div class="project-tech">
+                        ${techStackHtml}
+                        ${moreText}
+                    </div>
+                    <div class="project-meta" style="margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+                        <span class="project-date" style="font-size: 0.8rem; color: var(--text-tertiary); font-family: var(--font-mono);">${project.date}</span>
+                        <div class="project-links">
+                            ${linksHtml}
+                        </div>
+                    </div>
+                `;
+
+                return card;
+            }
+
+            // Create links HTML
+            function createLinksHtml(links) {
+                let html = '';
+                if (links.live) html += `<a href="${links.live}" target="_blank" class="project-link live" title="Live Demo"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></a>`;
+                if (links.github) html += `<a href="${links.github}" target="_blank" class="project-link github" title="View Code"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>`;
+                if (links.demo) html += `<a href="${links.demo}" target="_blank" class="project-link demo" title="Watch Demo"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></a>`;
+                return html;
+            }
+
+            // Filter projects
+            function filterProjects(filter) {
+                currentFilter = filter;
+                currentPage = 1;
+
+                switch (filter) {
+                    case 'featured':
+                        filteredProjects = allProjects.filter(p => p.featured);
+                        break;
+                    case 'complete':
+                        filteredProjects = allProjects.filter(p => p.status === 'Complete');
+                        break;
+                    case 'in-progress':
+                        filteredProjects = allProjects.filter(p => p.status === 'In Progress');
+                        break;
+                    default:
+                        filteredProjects = [...allProjects];
+                }
+
+                setupPagination();
+                renderProjects();
+            }
+
+            // Update pagination controls
+            function updatePaginationControls() {
+                pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+                prevBtn.disabled = currentPage === 1;
+                nextBtn.disabled = currentPage === totalPages;
+            }
+
+            // Event listeners
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterButtons.forEach(b => {
+                        b.classList.remove('active');
+                        b.classList.remove('button-primary');
+                        b.classList.add('button-secondary');
+                    });
+                    btn.classList.add('active');
+                    btn.classList.remove('button-secondary');
+                    btn.classList.add('button-primary');
+                    filterProjects(btn.dataset.filter);
+                });
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderProjects();
+                    updatePaginationControls();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderProjects();
+                    updatePaginationControls();
+                }
+            });
+
+            // Initialize
+            loadProjects();
+        })();
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+
+            if (currentTheme === 'dark') {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                updateThemeIcon('light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                updateThemeIcon('dark');
+            }
+        }
+
+        function updateThemeIcon(theme) {
+            const button = document.querySelector('.theme-toggle');
+            if (theme === 'dark') {
+                button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
+            } else {
+                button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+            }
+        }
+
+        // Load saved theme on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            const savedTheme = localStorage.getItem('theme');
+
+            if (savedTheme === 'light') {
+                document.body.removeAttribute('data-theme');
+                updateThemeIcon('light');
+            } else {
+                document.body.setAttribute('data-theme', 'dark');
+                updateThemeIcon('dark');
+            }
+        });
+    </script>
+
+</body>
+
+</html>

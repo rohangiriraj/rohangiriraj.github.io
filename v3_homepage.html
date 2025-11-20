@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rohan Giriraj | Software Engineer</title>
+    <style>
+        :root {
+            /* Palette */
+            --bg-color: #050507;
+            --card-bg: rgba(20, 20, 23, 0.6);
+            --card-hover: rgba(30, 30, 35, 0.8);
+            --text-primary: #f2f2f2;
+            --text-secondary: #888890;
+            --accent: #32d74b; /* Terminal Green */
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --blur-strength: 20px;
+            
+            /* Typography */
+            --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            --font-mono: "SF Mono", "Fira Code", "Roboto Mono", monospace;
+            
+            --max-width: 700px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            padding-bottom: 6rem;
+            overflow-y: scroll; /* Always show scrollbar to prevent jump */
+        }
+
+        /* --- The 'MacBook' Glass Navigation --- */
+        .nav-container {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: auto;
+            /* Subtle entrance animation */
+            animation: floatUp 0.8s ease-out 0.5s backwards;
+        }
+
+        nav {
+            background: rgba(20, 20, 23, 0.75);
+            backdrop-filter: blur(var(--blur-strength));
+            -webkit-backdrop-filter: blur(var(--blur-strength));
+            border: 1px solid var(--glass-border);
+            padding: 0.75rem 0.5rem;
+            border-radius: 999px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            color: var(--text-secondary);
+            background: transparent;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            border-radius: 99px;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            color: var(--text-primary);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .nav-item.active {
+            color: var(--bg-color);
+            background: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* --- Layout & Animation --- */
+        .wrapper {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 6rem 1.5rem 2rem 1.5rem;
+            min-height: 80vh;
+        }
+
+        .view-section {
+            display: none; /* Hidden by default */
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .view-section.active {
+            display: block;
+            animation: fadeInView 0.5s ease forwards;
+        }
+
+        @keyframes fadeInView {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatUp {
+            from { opacity: 0; transform: translate(-50%, 20px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+
+        /* --- Common Typography --- */
+        h1 { font-size: 2.5rem; font-weight: 500; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
+        h2 { font-size: 1.5rem; font-weight: 500; letter-spacing: -0.02em; margin-bottom: 1.5rem; color: var(--text-primary); }
+        
+        .section-header {
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 2rem;
+        }
+
+        .mono-label {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        p { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1.05rem; }
+
+        /* --- Cards & Lists --- */
+        .card {
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+
+        .card:hover {
+            transform: scale(1.01);
+            background: var(--card-hover);
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.8rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .tag-container {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            color: var(--text-secondary);
+        }
+
+        /* --- Thoughts (Blog) Specific --- */
+        .thought-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .thought-item:hover {
+            color: var(--text-primary);
+        }
+        
+        .thought-item:hover .thought-date {
+            color: var(--accent);
+        }
+
+        .thought-title { font-size: 1.1rem; }
+        .thought-date { font-family: var(--font-mono); font-size: 0.85rem; transition: color 0.2s ease; }
+
+        /* --- CV Specific --- */
+        .cv-block { margin-bottom: 3rem; }
+        .cv-block h3 { 
+            font-family: var(--font-mono); 
+            font-size: 0.9rem; 
+            color: var(--text-secondary); 
+            text-transform: uppercase; 
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .cv-entry {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .cv-time {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+
+        .cv-detail h4 {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+
+        .cv-detail .company {
+            font-size: 0.95rem;
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .cv-detail p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            margin-right: 1rem;
+        }
+
+        .btn-primary { background: var(--text-primary); color: var(--bg-color); }
+        .btn-primary:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(255,255,255,0.1); }
+        
+        .btn-secondary { background: rgba(255,255,255,0.05); color: var(--text-primary); border: 1px solid var(--glass-border); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+        /* --- Glow FX --- */
+        .glow {
+            position: fixed;
+            top: -20%;
+            left: -10%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(50, 215, 75, 0.06) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            filter: blur(100px);
+            pointer-events: none;
+        }
+        
+        /* Mobile Tweak for CV */
+        @media (max-width: 600px) {
+            .cv-entry { grid-template-columns: 1fr; gap: 0.5rem; }
+            .cv-time { margin-bottom: 0.2rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="glow"></div>
+
+    <!-- Navigation Dock -->
+    <div class="nav-container">
+        <nav>
+            <button class="nav-item active" onclick="switchTab('home', this)">Home</button>
+            <button class="nav-item" onclick="switchTab('work', this)">Work</button>
+            <button class="nav-item" onclick="switchTab('thoughts', this)">Thoughts</button>
+            <button class="nav-item" onclick="switchTab('cv', this)">CV</button>
+        </nav>
+    </div>
+
+    <div class="wrapper">
+        
+        <!-- HOME VIEW -->
+        <section id="home" class="view-section active">
+            <span class="mono-label">$ whoami</span>
+            <h1 style="margin-bottom: 0.5rem;">Rohan Giriraj</h1>
+            <p style="font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-secondary);">Backend & Data Engineer</p>
+            
+            <div style="margin-top: 3rem;">
+                <p>
+                    I architect scalable systems and decode complexity. Based in Pune, my work sits at the intersection of data engineering and backend infrastructure.
+                </p>
+                <p>
+                    I believe software should be quiet, reliable, and incredibly fast. I build solutions that work invisibly to solve visible problems.
+                </p>
+            </div>
+
+            <div style="margin-top: 3rem;">
+                <button onclick="document.querySelector('button[onclick*=\'work\']').click()" class="btn btn-primary">View Projects</button>
+                <a href="mailto:hello@rohangiriraj.com" class="btn btn-secondary">Email Me</a>
+            </div>
+        </section>
+
+        <!-- WORK VIEW -->
+        <section id="work" class="view-section">
+            <div class="section-header">
+                <span class="mono-label">01 / Selected Projects</span>
+                <h2>Engineering the invisible.</h2>
+                <p>A collection of backend systems, data pipelines, and tools I've built.</p>
+            </div>
+
+            <a href="#" class="card">
+                <div class="card-header">
+                    <span class="card-title">Distributed Data Pipeline</span>
+                    <div class="tag-container">
+                        <span class="tag">Python</span>
+                        <span class="tag">Apache Airflow</span>
+                    </div>
+                </div>
+                <p style="margin-bottom: 0; font-size: 0.95rem;">
+                    Orchestrated a multi-node ETL framework processing 5TB+ daily. Reduced latency by 40% through parallel processing optimization.
+                </p>
+            </a>
+
+            <a href="#" class="card">
+                <div class="card-header">
+                    <span class="card-title">Go Microservices Gateway</span>
+                    <div class="tag-container">
+                        <span class="tag">Go</span>
+                        <span class="tag">gRPC</span>
+                        <span class="tag">Docker</span>
+                    </div>
+                </div>
+                <p style="margin-bottom: 0; font-size: 0.95rem;">
+                    A high-performance API gateway handling authentication, rate-limiting, and request routing for internal microservices.
+                </p>
+            </a>
+
+            <a href="#" class="card">
+                <div class="card-header">
+                    <span class="card-title">Real-time Analytics Engine</span>
+                    <div class="tag-container">
+                        <span class="tag">Kafka</span>
+                        <span class="tag">Redis</span>
+                        <span class="tag">Node</span>
+                    </div>
+                </div>
+                <p style="margin-bottom: 0; font-size: 0.95rem;">
+                    Event-driven architecture for tracking user behavior in real-time, capable of sustaining 10k concurrent events/sec.
+                </p>
+            </a>
+        </section>
+
+        <!-- THOUGHTS VIEW -->
+        <section id="thoughts" class="view-section">
+            <div class="section-header">
+                <span class="mono-label">02 / Journal</span>
+                <h2>Thoughts on code & logic.</h2>
+                <p>Notes on backend architecture, minimalism, and the data landscape.</p>
+            </div>
+
+            <div class="thought-list">
+                <a href="#" class="thought-item">
+                    <span class="thought-title">The aesthetics of Backend Engineering</span>
+                    <span class="thought-date">OCT 2024</span>
+                </a>
+                <a href="#" class="thought-item">
+                    <span class="thought-title">Why I chose Go for concurrency</span>
+                    <span class="thought-date">AUG 2024</span>
+                </a>
+                <a href="#" class="thought-item">
+                    <span class="thought-title">Database indexing strategies for scale</span>
+                    <span class="thought-date">JUN 2024</span>
+                </a>
+                <a href="#" class="thought-item">
+                    <span class="thought-title">Digital minimalism: A developer's guide</span>
+                    <span class="thought-date">FEB 2024</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- CV VIEW -->
+        <section id="cv" class="view-section">
+            <div class="section-header">
+                <span class="mono-label">03 / Curriculum Vitae</span>
+                <h2>Experience & Education.</h2>
+            </div>
+
+            <div class="cv-block">
+                <h3>Experience</h3>
+                
+                <div class="cv-entry">
+                    <span class="cv-time">2022 — PRESENT</span>
+                    <div class="cv-detail">
+                        <h4>Senior Backend Engineer</h4>
+                        <span class="company">TechFlow Systems</span>
+                        <p>Leading the core infrastructure team. Migrated legacy monolith to microservices architecture, improving deployment frequency by 300%.</p>
+                    </div>
+                </div>
+
+                <div class="cv-entry">
+                    <span class="cv-time">2020 — 2022</span>
+                    <div class="cv-detail">
+                        <h4>Data Engineer</h4>
+                        <span class="company">DataStream Corp</span>
+                        <p>Built automated pipelines for financial data ingestion. Implemented robust data quality checks using Great Expectations.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cv-block">
+                <h3>Tech Stack</h3>
+                <div class="cv-entry">
+                    <span class="cv-time">LANGUAGES</span>
+                    <div class="cv-detail">
+                        <p style="margin:0">Python, Go (Golang), SQL, JavaScript</p>
+                    </div>
+                </div>
+                <div class="cv-entry">
+                    <span class="cv-time">INFRASTRUCTURE</span>
+                    <div class="cv-detail">
+                        <p style="margin:0">Docker, Kubernetes, AWS, Terraform</p>
+                    </div>
+                </div>
+                <div class="cv-entry">
+                    <span class="cv-time">DATA</span>
+                    <div class="cv-detail">
+                        <p style="margin:0">PostgreSQL, Redis, Apache Kafka, Airflow</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cv-block">
+                <h3>Education</h3>
+                <div class="cv-entry">
+                    <span class="cv-time">2016 — 2020</span>
+                    <div class="cv-detail">
+                        <h4>B.Tech Computer Science</h4>
+                        <span class="company">Pune University</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--glass-border);">
+                <a href="#" class="btn btn-secondary" style="width: 100%; text-align: center;">Download Full PDF</a>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        function switchTab(tabId, btnElement) {
+            // 1. Update Content
+            // Hide all sections
+            const sections = document.querySelectorAll('.view-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+                // Small timeout to allow display:none to take effect after opacity fade if we were doing complex JS animations,
+                // but CSS transitions handle the visual crossfade better with simple class toggling.
+            });
+
+            // Show target section
+            document.getElementById(tabId).classList.add('active');
+
+            // 2. Update Navigation Pills
+            const buttons = document.querySelectorAll('.nav-item');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            // 3. Scroll to top smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

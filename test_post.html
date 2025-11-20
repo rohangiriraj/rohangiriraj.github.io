@@ -1,0 +1,52 @@
+<!DOCTYPEhtml>
+<html>
+<head>
+    <title>Test Post Loading</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <h1>Test Post Loading</h1>
+    <div id="status">Loading...</div>
+    <div id="content"></div>
+    
+    <script>
+        async function testLoad() {
+            const statusDiv = document.getElementById('status');
+            const contentDiv = document.getElementById('content');
+            
+            try {
+                // Test 1: Load posts.json
+                const postsResponse = await fetch('posts.json');
+                const posts = await postsResponse.json();
+                statusDiv.innerHTML = `✅ Loaded ${posts.length} posts<br>`;
+                
+                // Test 2: Get first post
+                const post = posts[0];
+                statusDiv.innerHTML += `First post: ${post.title} (${post.file})<br>`;
+                
+                // Test 3: Load markdown with .md extension
+                const fileName = post.file.endsWith('.md') ? post.file : `${post.file}.md`;
+                statusDiv.innerHTML += `Fetching: content/posts/${fileName}<br>`;
+                
+                const mdResponse = await fetch(`content/posts/${fileName}`);
+                statusDiv.innerHTML += `Response status: ${mdResponse.status}<br>`;
+                
+                const markdown = await mdResponse.text();
+                statusDiv.innerHTML += `Markdown length: ${markdown.length}<br>`;
+                
+                // Test 4: Render markdown
+                const html = marked.parse(markdown);
+                statusDiv.innerHTML += `✅ Markdown rendered<br>`;
+                
+                contentDiv.innerHTML = html;
+                
+            } catch (error) {
+                statusDiv.innerHTML += `❌ Error: ${error.message}`;
+                console.error(error);
+            }
+        }
+        
+        testLoad();
+    </script>
+</body>
+</html>

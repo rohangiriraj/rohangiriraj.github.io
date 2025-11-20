@@ -5,453 +5,114 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project | Rohan Giriraj</title>
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
-    <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
-    <link rel="apple-touch-icon" href="assets/icons/favicon.svg">
-
     <link rel="stylesheet" href="assets/css/style.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <!-- MathJax CSS and Configuration -->
-    <script>
-        window.MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']],
-                processEscapes: true,
-                processEnvironments: true
-            },
-            options: {
-                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
-            }
-        };
-    </script>
-    <script type="text/javascript" id="MathJax-script" async
-        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-        </script>
-
+    <script src="assets/js/transitions.js" defer></script>
+    <!-- Markdown Support -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-    <style>
-        /* Project Detail Specifics */
-        .post-navigation {
-            margin-bottom: 2rem;
-        }
-
-        .post-navigation.bottom {
-            margin-top: 3rem;
-            margin-bottom: 0;
-        }
-
-        .back-to-projects {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s ease;
-        }
-
-        .back-to-projects:hover {
-            color: var(--accent-primary);
-        }
-
-        .project-detail {
-            margin-top: 1rem;
-        }
-
-        .project-header-detail {
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .project-meta-detail {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .project-description-detail {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: 2rem;
-        }
-
-        .project-tech-detail {
-            margin-bottom: 2rem;
-        }
-
-        .project-tech-detail h3 {
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .tech-stack {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .project-links-detail {
-            margin-top: 2rem;
-        }
-
-        .project-links-detail h3 {
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .links-container {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .project-link-detail {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            background-color: var(--text-primary);
-            color: var(--bg-color);
-            text-decoration: none;
-            border-radius: var(--radius-sm);
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: all 0.2s ease;
-        }
-
-        .project-link-detail:hover {
-            background-color: var(--accent-primary);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .project-content {
-            margin-top: 3rem;
-            line-height: 1.8;
-        }
-
-        .project-content h2 {
-            font-size: 1.75rem;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-
-        .project-content h3 {
-            font-size: 1.35rem;
-            margin-top: 2rem;
-            margin-bottom: 0.75rem;
-            color: var(--text-primary);
-        }
-
-        .project-content p {
-            margin-bottom: 1.25rem;
-            color: var(--text-secondary);
-        }
-
-        .project-content ul,
-        .project-content ol {
-            margin: 1rem 0;
-            padding-left: 1.5rem;
-        }
-
-        .project-content li {
-            margin-bottom: 0.5rem;
-            color: var(--text-secondary);
-        }
-
-        .project-content code {
-            background: var(--bg-color);
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            font-size: 0.9em;
-            border: 1px solid var(--border-color);
-        }
-
-        .project-content pre {
-            background: var(--surface-color);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            padding: 1rem;
-            overflow-x: auto;
-            margin: 1.5rem 0;
-        }
-
-        .project-content pre code {
-            background: none;
-            padding: 0;
-            border: none;
-        }
-
-        .project-content img {
-            max-width: 100%;
-            height: auto;
-            border-radius: var(--radius-md);
-            margin: 1.5rem 0;
-        }
-
-        .project-content blockquote {
-            border-left: 3px solid var(--accent-primary);
-            padding-left: 1rem;
-            margin: 1.5rem 0;
-            color: var(--text-secondary);
-            font-style: italic;
-        }
-
-        .error-message {
-            text-align: center;
-            padding: 3rem 1rem;
-        }
-
-        .error-message h2 {
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-        }
-
-        .error-message p {
-            color: var(--text-secondary);
-        }
-
-        .no-links {
-            color: var(--text-tertiary);
-            font-size: 0.9rem;
-        }
-    </style>
 </head>
 
 <body>
 
-    <header>
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-            <h1><a href="index.html">Rohan Giriraj</a></h1>
-            <nav>
-                <div class="nav-links">
-                    <a href="index.html">About</a>
-                    <a href="blog.html">Blog</a>
-                    <a href="projects.html" class="active">Projects</a>
-                    <a href="cv.html">CV</a>
+    <div class="glow"></div>
+
+    <!-- Navigation Dock -->
+    <div class="nav-container">
+        <nav>
+            <a href="index.html" class="nav-item">Home</a>
+            <a href="projects.html" class="nav-item active">Work</a>
+            <a href="blog.html" class="nav-item">Thoughts</a>
+            <a href="cv.html" class="nav-item">CV</a>
+        </nav>
+    </div>
+
+    <div class="wrapper">
+        <a href="projects.html" class="back-link" id="backLink">← Back to Work</a>
+
+        <article class="project-content">
+            <div class="project-header">
+                <h1 id="projectTitle"></h1>
+                <div class="project-meta">
+                    <span class="project-status" id="projectStatus"></span>
+                    <span class="project-tech" id="projectTech"></span>
                 </div>
-                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5" />
-                        <path
-                            d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-                    </svg>
-                </button>
-            </nav>
-        </div>
-    </header>
-
-    <main class="container">
-        <div class="post-navigation">
-            <a href="projects.html" class="back-to-projects" id="backToProjects">
-                ← Back to Projects
-            </a>
-        </div>
-
-        <div id="project-content" class="project-detail">
-            <!-- Project content will be loaded here -->
-        </div>
-
-        <div class="post-navigation bottom">
-            <a href="projects.html" class="back-to-projects" id="backToProjectsBottom">
-                ← Back to Projects
-            </a>
-        </div>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Rohan Giriraj. All rights reserved.</p>
-        </div>
-    </footer>
+            </div>
+            <div id="projectBody"></div>
+        </article>
+    </div>
 
     <script>
-        // Project detail page functionality
-        (async function () {
-            const urlParams = new URLSearchParams(window.location.search);
-            const projectSlug = urlParams.get('project');
-
-            if (projectSlug) {
-                try {
-                    // Load projects data for metadata
-                    const response = await fetch('projects.json');
-                    if (!response.ok) throw new Error('Could not load projects data.');
-
-                    const projects = await response.json();
-                    const project = projects.find(p => p.slug === projectSlug);
-
-                    if (project) {
-                        // Load markdown content from projects folder
-                        const markdownResponse = await fetch(`content/projects/${projectSlug}.md`);
-                        if (markdownResponse.ok) {
-                            const markdownContent = await markdownResponse.text();
-                            renderProject(project, markdownContent);
-                        } else {
-                            // Fallback to JSON-only rendering if markdown doesn't exist
-                            renderProject(project);
-                        }
-                        document.title = `${project.title} | Rohan Giriraj`;
-                    } else {
-                        document.getElementById('project-content').innerHTML = `
-                            <div class="error-message">
-                                <h2>Project Not Found</h2>
-                                <p>The project you're looking for doesn't exist.</p>
-                            </div>
-                        `;
-                    }
-
-                } catch (error) {
-                    console.error('Error loading project:', error);
-                    document.getElementById('project-content').innerHTML = `
-                        <div class="error-message">
-                            <h2>Error Loading Project</h2>
-                            <p>Sorry, there was an error loading the project details.</p>
-                        </div>
-                    `;
-                }
-            } else {
-                document.getElementById('project-content').innerHTML = `
-                    <div class="error-message">
-                        <h2>No Project Specified</h2>
-                        <p>Please select a project to view its details.</p>
-                    </div>
-                `;
-            }
-        })();
-
-        function renderProject(project, markdownContent = null) {
-            const statusClass = project.status.toLowerCase().replace(' ', '-');
-            const techStackHtml = project.techStack.map(tech =>
-                `<span class="tech-tag">${tech}</span>`
-            ).join('');
-
-            const linksHtml = createProjectLinks(project.links);
-
-            // Use markdown content if available, otherwise fall back to basic content
-            const projectContent = markdownContent ?
-                marked.parse(markdownContent) :
-                createFallbackContent(project);
-
-            document.getElementById('project-content').innerHTML = `
-                <div class="project-header-detail">
-                    <div class="project-meta-detail">
-                        <div class="project-status ${statusClass}">${project.status}</div>
-                        ${project.featured ? '<div class="project-featured" style="font-size: 0.8rem; color: var(--accent-primary);">⭐ Featured</div>' : ''}
-                        <span class="project-date" style="font-size: 0.8rem; color: var(--text-tertiary); font-family: var(--font-mono);">${project.date}</span>
-                    </div>
-                    <h1>${project.title}</h1>
-                    <p class="project-description-detail">${project.description}</p>
-                    
-                    <div class="project-tech-detail">
-                        <h3>Technologies Used</h3>
-                        <div class="tech-stack">
-                            ${techStackHtml}
-                        </div>
-                    </div>
-                    
-                    <div class="project-links-detail">
-                        <h3>Project Links</h3>
-                        <div class="links-container">
-                            ${linksHtml}
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-content">
-                    ${projectContent}
-                </div>
-            `;
-
-            // Render LaTeX equations with MathJax
-            const projectContentDiv = document.querySelector('.project-content');
-            if (projectContentDiv && window.MathJax) {
-                MathJax.typesetPromise([projectContentDiv]).then(() => {
-                    console.log('MathJax rendering completed successfully for project');
-                }).catch((err) => {
-                    console.error('MathJax rendering error:', err);
-                });
-            }
-        }
-
-        function createProjectLinks(links) {
-            let html = '';
-            if (links.live) html += `<a href="${links.live}" target="_blank" class="project-link-detail live">🌐 View Live Site</a>`;
-            if (links.github) html += `<a href="${links.github}" target="_blank" class="project-link-detail github">📁 View Source Code</a>`;
-            if (links.demo) html += `<a href="${links.demo}" target="_blank" class="project-link-detail demo">🎮 Try Demo</a>`;
-            return html || '<p class="no-links">Links will be available soon.</p>';
-        }
-
-        function createFallbackContent(project) {
-            // Fallback content when markdown file is not available
-            return `
-                <h2>Project Overview</h2>
-                <p>${project.excerpt || project.description}</p>
-                
-                <h2>Coming Soon</h2>
-                <p>Detailed writeup for this project is currently being prepared. Check back soon for technical details, implementation notes, and lessons learned.</p>
-                
-                <p>In the meantime, feel free to check out the project links above to explore the code or try the live demo.</p>
-            `;
-        }
-
-        // Theme toggle functionality
-        function toggleTheme() {
-            const body = document.body;
-            const button = document.querySelector('.theme-toggle');
-            const currentTheme = body.getAttribute('data-theme');
-
-            if (currentTheme === 'dark') {
-                body.removeAttribute('data-theme');
-                localStorage.setItem('theme', 'light');
-                updateThemeIcon('light');
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-                updateThemeIcon('dark');
-            }
-        }
-
-        function updateThemeIcon(theme) {
-            const button = document.querySelector('.theme-toggle');
-            if (theme === 'dark') {
-                button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
-            } else {
-                button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
-            }
-        }
-
-        // Load saved theme on page load
-        document.addEventListener('DOMContentLoaded', function () {
-            const savedTheme = localStorage.getItem('theme');
-
-            if (savedTheme === 'light') {
-                document.body.removeAttribute('data-theme');
-                updateThemeIcon('light');
-            } else {
-                document.body.setAttribute('data-theme', 'dark');
-                updateThemeIcon('dark');
-            }
+        // Configure marked options
+        marked.setOptions({
+            breaks: true,
+            gfm: true
         });
-    </script>
 
+        // Get URL parameters
+        const params = new URLSearchParams(window.location.search);
+        const projectSlug = params.get('project');
+        const fromPage = params.get('from');
+
+        // Set up back link intelligently
+        const backLink = document.getElementById('backLink');
+        if (fromPage) {
+            // User came from a paginated view
+            backLink.href = `projects.html?view=all&page=${fromPage}`;
+            if (fromPage !== '1') {
+                backLink.textContent = `← Back to Work (Page ${fromPage})`;
+            }
+        } else {
+            // User came from featured view or direct link
+            backLink.href = 'projects.html';
+        }
+
+        async function loadProject() {
+            if (!projectSlug) {
+                document.getElementById('projectTitle').textContent = 'Project Not Found';
+                document.getElementById('projectBody').innerHTML = '<p>No project specified.</p>';
+                return;
+            }
+
+            try {
+                // Load projects metadata
+                const projectsResponse = await fetch('projects.json');
+                const projects = await projectsResponse.json();
+
+                // Find the project metadata
+                const project = projects.find(p => p.slug === projectSlug);
+
+                if (!project) {
+                    document.getElementById('projectTitle').textContent = 'Project Not Found';
+                    document.getElementById('projectBody').innerHTML = '<p>Could not find this project.</p>';
+                    return;
+                }
+
+                // Update page title and project metadata
+                document.title = `${project.title} | Rohan Giriraj`;
+                document.getElementById('projectTitle').textContent = project.title;
+                document.getElementById('projectStatus').textContent = project.status;
+                document.getElementById('projectTech').textContent = project.techStack.join(', ');
+
+                // Load and render markdown content
+                // Use slug as filename (projects are stored as slug.md)
+                const fileName = project.file || `${project.slug}.md`;
+                const contentResponse = await fetch(`content/projects/${fileName}`);
+                const markdown = await contentResponse.text();
+
+                // Convert markdown to HTML
+                const html = marked.parse(markdown);
+                document.getElementById('projectBody').innerHTML = html;
+
+            } catch (error) {
+                console.error('Error loading project:', error);
+                document.getElementById('projectTitle').textContent = 'Error Loading Project';
+                document.getElementById('projectBody').innerHTML = '<p>Failed to load project content.</p>';
+            }
+        }
+
+        // Load project on page load
+        loadProject();
+    </script>
 </body>
 
 </html>
