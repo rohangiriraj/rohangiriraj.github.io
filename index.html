@@ -20,7 +20,6 @@
             <button class="nav-item active" onclick="switchTab('home', this)">Home</button>
             <button class="nav-item" onclick="switchTab('work', this)">Work</button>
             <button class="nav-item" onclick="switchTab('thoughts', this)">Thoughts</button>
-            <button class="nav-item" onclick="switchTab('cv', this)">CV</button>
         </nav>
     </div>
 
@@ -48,6 +47,7 @@
                 <button onclick="document.querySelector('button[onclick*=\'work\']').click()"
                     class="btn btn-primary">View Projects</button>
                 <a href="mailto:hello@rohangiriraj.com" class="btn btn-secondary">Email Me</a>
+                <a href="https://linkedin.com/in/rohan-giriraj" class="btn btn-secondary" target="_blank">LinkedIn</a>
             </div>
         </section>
 
@@ -82,79 +82,6 @@
 
             <div style="margin-top: 2rem; text-align: center;">
                 <a href="blog.html?view=all" class="btn btn-secondary" style="text-decoration: none;">View All Posts</a>
-            </div>
-        </section>
-
-        <!-- CV VIEW -->
-        <section id="cv" class="view-section">
-            <div class="section-header">
-                <span class="mono-label">03 / Curriculum Vitae</span>
-                <h2>Experience & Education.</h2>
-            </div>
-
-            <div class="cv-block">
-                <h3>Experience</h3>
-
-                <div class="cv-entry">
-                    <span class="cv-time">2022 — PRESENT</span>
-                    <div class="cv-detail">
-                        <h4>Senior Backend Engineer</h4>
-                        <span class="company">TechFlow Systems</span>
-                        <p>Leading the core infrastructure team. Migrated legacy monolith to microservices architecture,
-                            improving deployment frequency by 300%.</p>
-                    </div>
-                </div>
-
-                <div class="cv-entry">
-                    <span class="cv-time">2020 — 2022</span>
-                    <div class="cv-detail">
-                        <h4>Data Engineer</h4>
-                        <span class="company">DataStream Corp</span>
-                        <p>Built automated pipelines for financial data ingestion. Implemented robust data quality
-                            checks using Great Expectations.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="cv-block">
-                <h3>Tech Stack</h3>
-                <div class="cv-entry">
-                    <span class="cv-time">LANGUAGES</span>
-                    <div class="cv-detail">
-                        <p style="margin:0">Python, Go (Golang), SQL, JavaScript</p>
-                    </div>
-                </div>
-                <div class="cv-entry">
-                    <span class="cv-time">INFRASTRUCTURE</span>
-                    <div class="cv-detail">
-                        <p style="margin:0">Docker, Kubernetes, AWS, Terraform</p>
-                    </div>
-                </div>
-                <div class="cv-entry">
-                    <span class="cv-time">DATA</span>
-                    <div class="cv-detail">
-                        <p style="margin:0">PostgreSQL, Redis, Apache Kafka, Airflow</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="cv-block">
-                <h3>Education</h3>
-                <div class="cv-entry">
-                    <span class="cv-time">2016 — 2020</span>
-                    <div class="cv-detail">
-                        <h4>B.Tech Computer Science</h4>
-                        <span class="company">Pune University</span>
-                    </div>
-                </div>
-            </div>
-
-            <div
-                style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--glass-border);">
-                <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
-                    <a href="assets/resume.pdf" download class="btn btn-primary" style="text-decoration: none; flex: 1; min-width: 200px; max-width: 300px; text-align: center;">Download Resume</a>
-                    <a href="mailto:hello@rohangiriraj.com" class="btn btn-secondary" style="text-decoration: none; flex: 1; min-width: 200px; max-width: 300px; text-align: center;">Contact Me</a>
-                </div>
             </div>
         </section>
 
