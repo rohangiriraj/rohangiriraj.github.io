@@ -589,3 +589,122 @@ body.page-transitioning {
         width: 100%;
     }
 }
+
+/* --- Holographic Sticker Text Effect --- */
+.holo-text {
+    --mouse-x: 0.5;
+    --mouse-y: 0.5;
+    --rotate-x: 0deg;
+    --rotate-y: 0deg;
+    position: relative;
+    display: inline-block;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    cursor: default;
+}
+
+.holo-text .text-content {
+    position: relative;
+    display: inline-block;
+    transform: rotateX(var(--rotate-x)) rotateY(var(--rotate-y));
+    transition: transform 0.1s ease-out;
+    transform-style: preserve-3d;
+    font-size: 3rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+}
+
+/* Base text layer */
+.holo-text .text-base {
+    position: relative;
+    color: var(--text-primary);
+    transition: opacity 0.3s ease;
+}
+
+/* Holographic rainbow layer - clipped to text */
+.holo-text .holo-layer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        calc(var(--mouse-x) * 360deg),
+        hsl(0, 90%, 70%) 0%,
+        hsl(45, 90%, 65%) 15%,
+        hsl(90, 85%, 60%) 30%,
+        hsl(150, 90%, 65%) 45%,
+        hsl(200, 95%, 70%) 60%,
+        hsl(260, 90%, 70%) 75%,
+        hsl(310, 85%, 68%) 90%,
+        hsl(360, 90%, 70%) 100%
+    );
+    background-size: 200% 200%;
+    background-position: calc(var(--mouse-x) * 100%) calc(var(--mouse-y) * 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+/* Texture overlay - clipped to text */
+.holo-text .holo-texture {
+    position: absolute;
+    inset: 0;
+    background: 
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"),
+        linear-gradient(
+            calc(var(--mouse-x) * 360deg),
+            hsl(0, 90%, 70%) 0%,
+            hsl(60, 90%, 65%) 20%,
+            hsl(120, 85%, 60%) 40%,
+            hsl(180, 90%, 65%) 60%,
+            hsl(240, 95%, 70%) 80%,
+            hsl(300, 90%, 70%) 100%
+        );
+    background-size: 50px 50px, 200% 200%;
+    background-position: 0 0, calc(var(--mouse-x) * 100%) calc(var(--mouse-y) * 100%);
+    background-blend-mode: overlay;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    mix-blend-mode: color-dodge;
+}
+
+/* Specular glare - clipped to text */
+.holo-text .holo-glare {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        ellipse 60% 40% at calc(var(--mouse-x) * 100%) calc(var(--mouse-y) * 100%),
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 255, 255, 0.6) 20%,
+        transparent 60%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    mix-blend-mode: overlay;
+}
+
+/* Hover states */
+.holo-text:hover .text-base {
+    opacity: 0;
+}
+
+.holo-text:hover .holo-layer {
+    opacity: 1;
+}
+
+.holo-text:hover .holo-texture {
+    opacity: 0.4;
+}
+
+.holo-text:hover .holo-glare {
+    opacity: 0.8;
+}

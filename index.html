@@ -7,6 +7,39 @@
     <title>Rohan Giriraj | Software Engineer</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="assets/js/transitions.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const holoText = document.querySelector('.holo-text');
+            if (!holoText) return;
+
+            const textContent = holoText.querySelector('.text-content');
+            const maxTilt = 15; // degrees
+
+            holoText.addEventListener('mousemove', (e) => {
+                const rect = holoText.getBoundingClientRect();
+                
+                // Normalized mouse position (0 to 1)
+                const x = (e.clientX - rect.left) / rect.width;
+                const y = (e.clientY - rect.top) / rect.height;
+                
+                // Calculate tilt (centered at 0.5)
+                const tiltY = (x - 0.5) * maxTilt * 2;
+                const tiltX = (0.5 - y) * maxTilt * 2;
+                
+                holoText.style.setProperty('--mouse-x', x.toFixed(3));
+                holoText.style.setProperty('--mouse-y', y.toFixed(3));
+                holoText.style.setProperty('--rotate-x', `${tiltX}deg`);
+                holoText.style.setProperty('--rotate-y', `${tiltY}deg`);
+            });
+
+            holoText.addEventListener('mouseleave', () => {
+                holoText.style.setProperty('--mouse-x', '0.5');
+                holoText.style.setProperty('--mouse-y', '0.5');
+                holoText.style.setProperty('--rotate-x', '0deg');
+                holoText.style.setProperty('--rotate-y', '0deg');
+            });
+        });
+    </script>
 
 </head>
 
@@ -28,7 +61,7 @@
         <!-- HOME VIEW -->
         <section id="home" class="view-section active">
             <span class="mono-label">$ whoami</span>
-            <h1 style="margin-bottom: 0.5rem;">Rohan Giriraj</h1>
+            <h1 style="margin-bottom: 0.5rem;"><span class="holo-text"><span class="text-content"><span class="text-base">Rohan Giriraj</span><span class="holo-layer" aria-hidden="true">Rohan Giriraj</span><span class="holo-texture" aria-hidden="true">Rohan Giriraj</span><span class="holo-glare" aria-hidden="true">Rohan Giriraj</span></span></span></h1>
             <p style="font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-secondary);">Backend & Data
                 Engineer</p>
 
