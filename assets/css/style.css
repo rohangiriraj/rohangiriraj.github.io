@@ -428,6 +428,7 @@ p {
     background: linear-gradient(135deg, var(--accent) 0%, #2bc73e 100%);
     color: var(--bg-color);
     box-shadow: 0 4px 15px rgba(50, 215, 75, 0.2);
+    font-family: var(--font-mono);
 }
 
 .btn-primary:hover {
@@ -446,6 +447,7 @@ p {
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    font-family: var(--font-mono);
 }
 
 .btn-secondary:hover {
