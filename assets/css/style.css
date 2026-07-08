@@ -14,6 +14,7 @@
 
     /* Typography */
     --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-serif: Denton, "Playfair Display", "Crimson Text", Georgia, serif;
     --font-mono: "SF Mono", "Fira Code", "Roboto Mono", monospace;
 
     --max-width: 700px;
@@ -25,6 +26,10 @@
     padding: 0;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     background-color: var(--bg-color);
     color: var(--text-primary);
@@ -34,6 +39,7 @@ body {
     padding-bottom: 6rem;
     overflow-y: scroll;
     /* Always show scrollbar to prevent jump */
+    animation: pageLoad 0.5s cubic-bezier(0.23, 1, 0.320, 1);
 }
 
 /* --- The 'MacBook' Glass Navigation --- */
@@ -64,33 +70,35 @@ nav {
     color: var(--text-secondary);
     background: transparent;
     border: none;
-    padding: 0.5rem 1.2rem;
+    padding: 0.6rem 1.3rem;
     cursor: pointer;
     font-family: var(--font-mono);
     font-size: 0.85rem;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
     border-radius: 99px;
     position: relative;
     text-decoration: none;
     display: inline-block;
+    font-weight: 500;
 }
 
 .nav-item:hover {
     color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .nav-item.active {
     color: var(--bg-color);
     background: var(--text-primary);
     font-weight: 600;
+    box-shadow: 0 4px 12px rgba(242, 242, 242, 0.15);
 }
 
 /* --- Layout & Animation --- */
 .wrapper {
     max-width: var(--max-width);
     margin: 0 auto;
-    padding: 6rem 1.5rem 2rem 1.5rem;
+    padding: 2rem 1.5rem 6rem 1.5rem;
     min-height: 80vh;
 }
 
@@ -98,16 +106,28 @@ nav {
     display: none;
     /* Hidden by default */
     opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.4s ease, transform 0.4s ease;
+    transform: translateY(15px);
+    transition: opacity 0.5s cubic-bezier(0.23, 1, 0.320, 1), transform 0.5s cubic-bezier(0.23, 1, 0.320, 1);
 }
 
 .view-section.active {
     display: block;
-    animation: fadeInView 0.5s ease forwards;
+    animation: fadeInView 0.5s cubic-bezier(0.23, 1, 0.320, 1) forwards;
 }
 
 @keyframes fadeInView {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -128,57 +148,67 @@ nav {
 
 /* --- Common Typography --- */
 h1 {
-    font-size: 2.5rem;
-    font-weight: 500;
+    font-size: 3rem;
+    font-weight: 100;
     letter-spacing: -0.03em;
     margin-bottom: 0.5rem;
+    line-height: 1.1;
+    font-family: var(--font-serif);
 }
 
 h2 {
-    font-size: 1.5rem;
-    font-weight: 500;
+    font-size: 2rem;
+    font-weight: 100;
     letter-spacing: -0.02em;
     margin-bottom: 1.5rem;
     color: var(--text-primary);
+    line-height: 1.2;
+    font-family: var(--font-serif);
 }
 
 .section-header {
     margin-bottom: 3rem;
-    border-bottom: 1px solid var(--glass-border);
-    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding-bottom: 2.5rem;
 }
 
 .mono-label {
     font-family: var(--font-mono);
     font-size: 0.8rem;
     color: var(--accent);
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
     display: block;
+    font-weight: 500;
+    letter-spacing: 0.05em;
 }
 
 p {
     color: var(--text-secondary);
     margin-bottom: 1.5rem;
     font-size: 1.05rem;
+    line-height: 1.7;
 }
 
 /* --- Cards & Lists --- */
 .card {
     padding: 1.5rem;
-    background: var(--card-bg);
+    background: rgba(20, 20, 23, 0.5);
     border: 1px solid var(--glass-border);
     border-radius: 12px;
     margin-bottom: 1rem;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
     cursor: pointer;
     text-decoration: none;
     display: block;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 }
 
 .card:hover {
-    transform: scale(1.01);
-    background: var(--card-hover);
-    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-4px);
+    background: rgba(25, 25, 30, 0.8);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
 }
 
 .card-header {
@@ -217,15 +247,17 @@ p {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    padding: 1.2rem 0;
-    border-bottom: 1px solid var(--glass-border);
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
     color: var(--text-secondary);
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+    gap: 1rem;
 }
 
 .thought-item:hover {
     color: var(--text-primary);
+    padding-left: 0.5rem;
 }
 
 .thought-item:hover .thought-date {
@@ -253,20 +285,22 @@ p {
 
 .pagination-btn {
     padding: 0.8rem 1.5rem;
-    border-radius: 8px;
+    border-radius: 10px;
     font-size: 0.9rem;
     font-weight: 500;
     border: 1px solid var(--glass-border);
     background: rgba(255, 255, 255, 0.05);
     color: var(--text-primary);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
     font-family: var(--font-mono);
 }
 
 .pagination-btn:hover:not(:disabled) {
     background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
 }
 
 .pagination-btn:disabled {
@@ -282,26 +316,29 @@ p {
 
 /* --- Filter buttons --- */
 .filter-btn {
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
     font-size: 0.85rem;
     font-weight: 500;
     border: 1px solid var(--glass-border);
     background: rgba(255, 255, 255, 0.05);
     color: var(--text-secondary);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
     font-family: var(--font-mono);
 }
 
 .filter-btn:hover {
     background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
 .filter-btn.active {
     background: var(--accent);
     color: var(--bg-color);
     border-color: var(--accent);
+    box-shadow: 0 4px 12px rgba(50, 215, 75, 0.2);
 }
 
 .filters {
@@ -372,36 +409,50 @@ p {
 /* --- Buttons --- */
 .btn {
     display: inline-block;
-    padding: 0.8rem 1.5rem;
-    border-radius: 8px;
+    padding: 0.9rem 1.8rem;
+    border-radius: 10px;
     font-size: 0.9rem;
     font-weight: 500;
     border: none;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
     text-decoration: none;
     margin-right: 1rem;
+    position: relative;
+    overflow: hidden;
+    vertical-align: middle;
+    line-height: 1.5;
 }
 
 .btn-primary {
-    background: var(--text-primary);
+    background: linear-gradient(135deg, var(--accent) 0%, #2bc73e 100%);
     color: var(--bg-color);
+    box-shadow: 0 4px 15px rgba(50, 215, 75, 0.2);
 }
 
 .btn-primary:hover {
-    background: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, #2bc73e 0%, var(--accent) 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(50, 215, 75, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(-1px);
 }
 
 .btn-secondary {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.08);
     color: var(--text-primary);
     border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
 }
 
 /* --- Page Transitions --- */
@@ -436,6 +487,50 @@ body.page-transitioning {
     background: radial-gradient(circle, rgba(50, 215, 75, 0.06) 0%, rgba(0, 0, 0, 0) 70%);
     z-index: -1;
     filter: blur(100px);
+    pointer-events: none;
+}
+
+/* --- Decorative Header Bar --- */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        rgba(50, 215, 75, 0.4) 0%,
+        rgba(50, 200, 100, 0.5) 12%,
+        rgba(50, 150, 150, 0.45) 25%,
+        rgba(100, 150, 220, 0.4) 40%,
+        rgba(150, 100, 220, 0.35) 55%,
+        rgba(200, 100, 180, 0.4) 70%,
+        rgba(200, 120, 150, 0.35) 85%,
+        rgba(50, 215, 75, 0.3) 100%
+    );
+    z-index: 999;
+    filter: blur(0.5px);
+    box-shadow: 0 0 25px 10px rgba(50, 215, 75, 0.2),
+                0 0 50px 20px rgba(100, 150, 200, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* --- Enhanced Bottom Glow --- */
+body::after {
+    content: '';
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 300px;
+    background: radial-gradient(ellipse 800px 300px at 50% 100%, 
+        rgba(50, 215, 75, 0.1) 0%,
+        rgba(50, 215, 75, 0.05) 30%,
+        rgba(0, 0, 0, 0) 100%
+    );
+    z-index: -1;
+    filter: blur(60px);
     pointer-events: none;
 }
 
