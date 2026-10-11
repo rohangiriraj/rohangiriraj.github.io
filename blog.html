@@ -135,10 +135,14 @@
             item.className = 'thought-item';
 
             const dateStr = formatBlogDate(post.date);
+            const excerpt = post.excerpt ? `<p class="thought-excerpt">${post.excerpt}</p>` : '';
 
             item.innerHTML = `
-                <span class="thought-title">${post.title}</span>
-                <span class="thought-date">${dateStr}</span>
+                <div class="thought-row">
+                    <span class="thought-title">${post.title}</span>
+                    <span class="thought-date">${dateStr}</span>
+                </div>
+                ${excerpt}
             `;
 
             return item;
