@@ -255,6 +255,13 @@
         });
 
         document.addEventListener('DOMContentLoaded', loadProjects);
+
+        // Guard against a bfcache restore landing mid-fade, with the
+        // list frozen at opacity: 0 (see assets/js/transitions.js).
+        window.addEventListener('pageshow', () => {
+            const container = document.getElementById('all-projects-container');
+            if (container) container.style.opacity = '1';
+        });
     </script>
 </body>
 

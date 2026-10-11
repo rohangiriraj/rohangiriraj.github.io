@@ -6,6 +6,24 @@ function smoothNavigate(url) {
     }, 300);
 }
 
+// A page we navigated away from can be frozen into the browser's
+// back-forward cache (bfcache) mid-fade, with 'page-transitioning'
+// (opacity: 0) still applied — and since bfcache restores don't
+// re-fire DOMContentLoaded, nothing would otherwise clear it.
+//
+// 'pagehide' fires right as the page is being hidden/cached, so we
+// clear the class there, before the snapshot is taken. 'pageshow'
+// fires on every show, including a bfcache restore, as a second
+// safety net in case the snapshot was already taken with the class
+// present (e.g. from a page loaded before this fix shipped).
+window.addEventListener('pagehide', () => {
+    document.body.classList.remove('page-transitioning');
+});
+
+window.addEventListener('pageshow', () => {
+    document.body.classList.remove('page-transitioning');
+});
+
 // Add smooth transitions to all navigation links
 document.addEventListener('DOMContentLoaded', () => {
     // Handle all navigation links

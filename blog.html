@@ -224,6 +224,13 @@
         });
 
         document.addEventListener('DOMContentLoaded', initializeBlog);
+
+        // Guard against a bfcache restore landing mid-fade, with the
+        // list frozen at opacity: 0 (see assets/js/transitions.js).
+        window.addEventListener('pageshow', () => {
+            const container = document.getElementById('all-thoughts-container');
+            if (container) container.style.opacity = '1';
+        });
     </script>
 </body>
 
