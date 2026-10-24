@@ -20,6 +20,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script>
+        // MathJax's default config only recognizes \( \) for inline math;
+        // our content uses $ $ too, so it must be declared before the
+        // tex-mml-chtml bundle below loads.
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="assets/js/transitions.js" defer></script>
 </head>
@@ -116,8 +127,25 @@
                 const contentResponse = await fetch(`content/posts/${fileName}`);
                 const markdown = await contentResponse.text();
                 
+                // marked.js would otherwise mangle raw LaTeX before MathJax
+                // sees it — e.g. collapsing the \\ matrix-row separator in
+                // \begin{pmatrix}...\\...\end{pmatrix} into a single \.
+                // Swap math segments for placeholders, let marked run, then
+                // restore the untouched LaTeX into the resulting HTML.
+                const mathSegments = [];
+                const stash = (match) => {
+                    mathSegments.push(match);
+                    return `@@MATH${mathSegments.length - 1}@@`;
+                };
+                const protectedMarkdown = markdown
+                    .replace(/\$\$[\s\S]+?\$\$/g, stash)
+                    .replace(/\\\[[\s\S]+?\\\]/g, stash)
+                    .replace(/\\\([\s\S]+?\\\)/g, stash)
+                    .replace(/\$[^$\n]+?\$/g, stash);
+
                 // Convert markdown to HTML
-                const html = marked.parse(markdown);
+                let html = marked.parse(protectedMarkdown);
+                html = html.replace(/@@MATH(\d+)@@/g, (_, i) => mathSegments[Number(i)]);
                 document.getElementById('postBody').innerHTML = html;
 
                 // Estimate reading time from the raw word count (~200 wpm)
@@ -128,12 +156,22 @@
                 // Apply syntax highlighting
                 Prism.highlightAll();
 
-                // Trigger MathJax rendering
-                if (window.MathJax) {
-                    MathJax.typesetPromise([document.getElementById('postBody')]).catch((err) => {
-                        console.log('MathJax error:', err);
-                    });
-                }
+                // Trigger MathJax rendering. The script tag is async, so it
+                // can still be loading when we get here even though
+                // window.MathJax already exists (we predefine it for config
+                // above) — wait for its startup promise, or for the script
+                // itself to finish loading if startup isn't ready yet.
+                const typesetMath = () => {
+                    const target = document.getElementById('postBody');
+                    if (window.MathJax && window.MathJax.startup && window.MathJax.startup.promise) {
+                        window.MathJax.startup.promise
+                            .then(() => window.MathJax.typesetPromise([target]))
+                            .catch((err) => console.log('MathJax error:', err));
+                    } else {
+                        document.getElementById('MathJax-script').addEventListener('load', typesetMath, { once: true });
+                    }
+                };
+                typesetMath();
 
             } catch (error) {
                 console.error('Error loading post:', error);

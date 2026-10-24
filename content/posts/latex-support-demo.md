@@ -6,7 +6,7 @@ This post demonstrates the LaTeX support for rendering mathematical equations an
 
 Here's an example of inline math: The quadratic formula is $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$.
 
-You can also write inline equations using parentheses notation like this: \\(E = mc^2\\).
+You can also write inline equations using parentheses notation like this: \(E = mc^2\).
 
 ## Display Mathematics
 
@@ -18,9 +18,9 @@ $$
 
 Or using bracket notation:
 
-\\[
+\[
 \sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6}
-\\]
+\]
 
 
 
